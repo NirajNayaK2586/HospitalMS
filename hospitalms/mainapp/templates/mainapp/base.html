@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        {% endblock title%}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+    {% block header %}
+
+    {% endblock header %}
+</head>
+
+<body>
+    <section>
+        <div class="top-bar">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'mainapp:profile' %}">Profile</a>
+            {% else %}
+            <a href="{% url 'mainapp:user_login' %}">Login | </a>
+            <a href="{% url 'mainapp:signup' %}">| Register</a>
+            {% endif %}
+        </div>
+    </section>
+
+
+    <section class="navigation">
+        <div class="nav-container">
+            <div class="brand">
+                <a href="{% url 'mainapp:index' %}">Logo</a>
+            </div>
+            <nav>
+                <div class="nav-mobile"><a id="navbar-toggle" href="#!"><span></span></a></div>
+                <ul class="nav-list">
+                    <li>
+                        <a href="{% url 'mainapp:index' %}">Home</a>
+                    </li>
+                    <li>
+                        <a href="#!">About</a>
+                    </li>
+                    <li>
+                        <a href="#!">Health Packages</a>
+                    </li>
+                    <li>
+                        <a href="#!">Childcare</a>
+                    </li>
+                    <li>
+                        <a href="#!">Book Appointment</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    {% block content %}
+    {% endblock content %}
+
+    <script>
+        (function ($) {
+            $(function () {
+
+                //  open and close nav 
+                $('#navbar-toggle').click(function () {
+                    $('nav ul').slideToggle();
+                });
+
+
+                // Hamburger toggle
+                $('#navbar-toggle').on('click', function () {
+                    this.classList.toggle('active');
+                });
+
+
+                // If a link has a dropdown, add sub menu toggle.
+                $('nav ul li a:not(:only-child)').click(function (e) {
+                    $(this).siblings('.navbar-dropdown').slideToggle("slow");
+
+                    // Close dropdown when select another dropdown
+                    $('.navbar-dropdown').not($(this).siblings()).hide("slow");
+                    e.stopPropagation();
+                });
+
+
+                // Click outside the dropdown will remove the dropdown class
+                $('html').click(function () {
+                    $('.navbar-dropdown').hide();
+                });
+            });
+        })(jQuery); 
+    </script>
+    {% block script %}
+    {% endblock script%}
+</body>
+
+</html>

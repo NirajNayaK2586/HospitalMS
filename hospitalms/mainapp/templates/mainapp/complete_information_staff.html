@@ -1,0 +1,212 @@
+{% extends 'mainapp/base.html' %}
+
+{% load static %}
+
+{% block header %}
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600&display=swap");
+
+    h1 {
+        font-family: "Urbanist";
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    h2 {
+        font-family: "Urbanist";
+        font-weight: 500;
+        color: #ffffff;
+    }
+
+    label {
+        font-family: "Urbanist";
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    p {
+        font-family: "Urbanist";
+        font-weight: 400;
+        font-size: 1.2rem;
+        color: #ffffff;
+    }
+
+    ul.suggestions li {
+        font-family: "Urbanist";
+        font-weight: 400;
+        font-size: 0.8rem;
+        color: #55a4fe;
+    }
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .form-container {
+        height: 100%;
+        width: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 150px;
+        padding: 24px 48px;
+    }
+
+    .form-container .form {
+        box-shadow: rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.178) 0px 4px 6px;
+        padding: 2rem;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2vh;
+        height: fit-content;
+        width: 24rem;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+    form {
+        box-shadow: rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.178) 0px 4px 6px;
+        padding: 2rem;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2vh;
+        height: fit-content;
+        width: 24rem;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+
+    input.submit-btn {
+        background-color: #4d9ffe;
+        padding: 0.2rem 0.8rem;
+        border: 1px solid #4d9ffe;
+        cursor: pointer;
+        font-family: "Urbanist";
+        font-weight: 400;
+        text-align: center;
+        color: #ffffff;
+    }
+
+    .form-container .form .submit-btn:hover {
+        border: 1px dashed #4d9ffe;
+    }
+
+    .form-container .form .submit-btn:active {
+        background-color: #4d9ffe;
+        color: white;
+    }
+
+    .form-container .form .username-bar {
+        border: 1px solid #4d9ffe;
+        padding: 0.2rem 0.8rem;
+    }
+
+    .username-bar {
+        border: 1px solid #4d9ffe;
+        padding: 0.2rem 0.8rem;
+        display: block;
+        margin: 6px;
+        padding: 12px;
+    }
+
+    #id_staff_number{
+        border: 1px solid #4d9ffe;
+        padding: 0.2rem 0.8rem;
+        display: block;
+        margin: 6px;
+        padding: 12px;
+    }
+
+    .form-container .sidebar {
+        box-shadow: rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.178) 0px 4px 6px;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2vh;
+        height: 16rem;
+        width: 16rem;
+        background: #ff7214;
+        background: linear-gradient(45deg, rgba(255, 114, 20, 0.98) 16%, #f7aa02 74%);
+        background: -moz-linear-gradient(45deg, rgba(255, 114, 20, 0.98) 16%, #f7aa02 74%);
+        background: -webkit-linear-gradient(45deg, rgba(255, 114, 20, 0.98) 16%, #f7aa02 74%);
+    }
+
+    .form-container .sidebar h2 {
+        margin-top: auto;
+    }
+
+    @media screen and (max-width: 524px) {
+        .form-container {
+            flex-direction: column;
+        }
+
+        .form {
+            margin-top: 2rem;
+            height: 8rem;
+            width: 8rem;
+        }
+
+        .sidebar {
+            margin-bottom: 2rem;
+            height: 8rem;
+            width: 8rem;
+        }
+    }
+</style>
+{% endblock header %}
+
+{% block content %}
+
+{% if user_status == 0 %}
+<h2>
+    Complete the following information (as a Staff):
+</h2>
+<section class="form-container">
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="">Staff Number:</label>
+        <input type="integer" value="" name="staff_number" class="username-bar">
+        <input type="submit" class="submit-btn">
+    </form>
+    <div class="sidebar">
+        <h1>Hospital MS</h1>
+        <p>Staff Login</p>
+        <h2>Loving to work with you &#9825;</h2>
+    </div>
+</section>
+{% endif %}
+
+{% if user_status == 1 %}
+<section class="form-container">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ r_user_form }}
+        <input type="submit" value="Update" class="submit-btn">
+
+    </form>
+
+    <div class="sidebar">
+        <h1>Hospital MS</h1>
+        <p>Staff Login</p>
+        <h2>Loving to work with you &#9825;</h2>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block script %}
+
+<script>
+    var staff_number = document.getElementsByName("staff_number");
+    var staff_number2 = document.getElementById("id_staff_number");
+    staff_number.classList.add("username-bar");
+    staff_number2.classList.add("username-bar");
+</script>
+{% endblock script%}
