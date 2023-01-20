@@ -108,7 +108,7 @@
         padding: 0.2rem 0.8rem;
     }
 
-    .username-bar {
+    .username-bar, #id_doctor_image {
         border: 1px solid #4d9ffe;
         padding: 0.2rem 0.8rem;
         display: block;
@@ -160,19 +160,38 @@
 
 <section class="form-container">
     
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h2 style="color:#412855;;">
             Complete the following information (as a    ):
         </h2>
 
         <label for="">Your Specialization</label>
-        <input type="text" value="" name="specialization" class="username-bar">
+        <!-- <input type="text" value="" name="specialization" class="username-bar"> -->
+        <select name="specialization" id="id_specialization" class="username-bar">
+            <option value="General Clinics">General Clinics</option>
+            <option value="Mental Health">Mental Health</option>
+            <option value="Eye Specialists">Eye Specialists</option>
+            <option value="Ayurveda Specialists">Ayurveda Specialists</option>
+            <option value="ENT specialists">ENT specialists</option>
+            <option value="Skin, Sex and Hair">Skin, Sex and Hair</option>
+            <option value="Child Health">Child Health</option>
+            <option value="Diabetes, Thyroid and Hormonal">Diabetes, Thyroid and Hormonal</option>
+            <option value="Pregnancy and Infertility">Pregnancy and Infertility</option>
+            <option value="Kidney Specialists">Kidney Specialists</option>
+            <option value="Dental Cares">Dental Cares</option>
+            <option value="Physiotherapy Centers">Physiotherapy Centers</option>
+            <option value="Diet and Nutrition">Diet and Nutrition</option>
+        </select>
+
         <label for="">Available?</label>
         <input type="radio" id="yes" name="avialable" value="True" class="username-bar">
         <label for="yes">YES</label><br>
         <input type="radio" id="no" name="avialable" value="False" class="username-bar">
         <label for="yes">NO</label><br>
+
+        <label for="">Image</label>
+        <input type="file" name="image" class="username-bar">
         <input type="submit" class="submit-btn">
     </form>
     <div class="sidebar">
@@ -186,7 +205,7 @@
 
 {% if user_status == 1 %}
 <section class="form-container">
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ d_user_form }}
         <input type="submit" value="Update" class="submit-btn">

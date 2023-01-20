@@ -35,13 +35,32 @@ class Receptionist(models.Model):
 
 ''' A class unique to Doctors  '''
 class Doctor(models.Model):
+    specialization_choices = (
+        ('General Clinics', 'General Clinics'),
+        ('Mental Health', 'Mental Health'),
+        ('Eye Specialists', 'Eye Specialists'),
+        ('Cancer Specialists', 'Cancer Specialists'),
+        ('Ayurveda Specialists', 'Ayurveda Specialists'),
+        ('ENT specialists', 'ENT specialists'),
+        ('Skin, Sex and Hair', 'Skin, Sex and Hair'),
+        ('Child Health', 'Child Health'),
+        ('Diabetes, Thyroid and Hormonal', 'Diabetes, Thyroid and Hormonal'),
+        ('Pregnancy and Infertility', 'Pregnancy and Infertility'),
+        ('Kidney Specialists', 'Kidney Specialists'),
+        ('Dental Cares', 'Dental Cares'),
+        ('Physiotherapy Centers', 'Physiotherapy Centers'),
+        ('Diet and Nutrition', 'Diet and Nutrition'),
+
+    ) 
     User = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    specialization = models.CharField(max_length=255)
+    specialization = models.CharField(choices=specialization_choices, max_length=120, default='General Clinics')
     availability = models.BooleanField(default=False)
     verify = models.BooleanField(default=False)
+    short_description = models.TextField(default="Specialist Doctor",blank=True)
+    doctor_image = models.ImageField(upload_to='doctors_image', blank=True)
 
     def __str__(self):
-        return self.User.email
+        return self.User.username
 
 
 ''' A class unique to Patients '''
@@ -50,19 +69,21 @@ class Patient(models.Model):
     address = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.User.email
+        return self.User.username
 
 
 ''' A class to store appointments '''
 class Appointments(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    booked_by = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    booked_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     booked_at = models.DateTimeField(auto_now=True)
-    appointment_time = models.DateField()
+    appointment_date = models.DateField(blank=True, null=True)
+    appointment_time = models.TimeField()
     status = models.BooleanField(default=True)
+    message = models.TextField(blank=True)
 
     def __str__(self):
-        return self.appointment_time
+        return self.booked_by.username
 
 ''' A class to store reports '''
 class Report(models.Model):
@@ -70,20 +91,21 @@ class Report(models.Model):
     patient =models.ForeignKey(Patient, on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     report = models.FileField(upload_to='report_file')
+    doctor_review = models.TextField(blank=True)
 
     def __str__(self):
         return self.report_title
 
 ''' Comment and review model'''
 class ReviewComment(models.Model):
-    patient =models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient =models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     review_date = models.DateTimeField(auto_now=True)
     review_rating = models.IntegerField()
     review_comment = models.TextField()
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.doctor)
+        return '%s %s' % (self.doctor,self.patient)
 
 
 ''' Bills model '''

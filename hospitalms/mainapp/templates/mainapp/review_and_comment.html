@@ -1,0 +1,375 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+
+{% block header %}
+
+<style>
+    /* ----------------------------------
+        Top Section of Doctor
+    ------------------------------------- */
+    .left-section {
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        width: auto;
+        height: fit-content;
+        padding: 24px;
+        border-radius: 24px;
+    }
+
+    .left-section img {
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        border: 1px solid red;
+        text-align: center;
+    }
+
+    .left-section p.name {
+        text-align: center;
+
+    }
+
+    .left-top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .doctor_info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .doctor_info p {
+        padding: 2px;
+    }
+
+    .first {
+        font-weight: bold;
+    }
+
+    .blue-tick {
+        color: #4d9ffe;
+    }
+
+
+
+    /* ----------------------------------
+        Form Section Doctor comment and review
+    ------------------------------------- */
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    form p:nth-child(1) {
+        display: none;
+    }
+
+    form p:nth-child(2) {
+        display: none;
+    }
+
+    form p:nth-child(3) {
+        display: none;
+    }
+
+    form p:nth-child(5) {
+        display: none;
+    }
+
+    label {
+        border-bottom: 1px solid #4d9ffe;
+        padding: 0.2rem 0.8rem;
+        display: block;
+        margin: 6px;
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    #id_review_comment {
+        border: 1px solid #4d9ffe;
+        padding: 0.2rem 0.8rem;
+        display: block;
+        margin: 6px;
+        padding: 12px;
+    }
+
+    .rating {
+        padding: 16px 12px;
+    }
+
+    .rating a {
+        font-size: 20px;
+        text-decoration: none;
+        color: #87ceeb;
+        border: 1px solid thistle;
+        padding: 6px;
+    }
+
+    .given {
+        font-size: 20px;
+        text-decoration: none;
+        color: #87ceeb;
+        border: 1px solid thistle;
+        padding: 6px;
+    }
+
+    .color-rated {
+        color: #412855 !important;
+        /* background: yellow; */
+    }
+
+    button.submit {
+        display: block;
+        background-color: #4d9ffe;
+        padding: 0.4rem 1rem;
+        border: 1px solid #4d9ffe;
+        cursor: pointer;
+        font-family: "Urbanist";
+        font-weight: 400;
+        text-align: center;
+        color: #ffffff;
+        margin: 24px 0px;
+        border-radius: 24px;
+    }
+
+    /* ----------------------------------------
+            Comment Listsshow
+    ------------------------------------------- */
+
+    .view-commennt {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        width: 50%;
+        margin: 0 auto;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        padding: 12px;
+    }
+
+    @media (max-width: 767px) {
+        .view-commennt {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            width: 80%;
+            margin: 0 auto;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+            padding: 12px;
+        }
+    }
+
+    .ahead,
+    .later {
+        display: flex;
+        padding: 12px;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .later {
+        align-items: flex-end;
+    }
+
+    .name {
+        font-weight: bold;
+        border-bottom: 1px solid blue;
+        margin: 12px 0px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+{% endblock header %}
+
+
+{% block content %}
+
+<div class="left-section">
+    <div class="left-top">
+        {% if doctor_data.doctor_image %}
+        <img src="{{ doctor_data.doctor_image.url }}" alt=""><br>
+
+        {% else %}
+        <img src="{% static 'img/fd.png' %}" alt=""><br>
+        {% endif %}
+        <p class="name">
+            {{ doctor_data.User }}
+            {% if doctor_data.verify %}
+            <i class="fa fa-check-circle blue-tick"></i>
+            {% else %}
+            <i class="fa fa-exclamation-triangle blue-tick"></i>
+            {% endif %}
+        </p>
+    </div>
+    <hr>
+    <div class="doctor_info">
+        <p class="first">Specialization: </p>
+        <p>{{ doctor_data.specialization }}</p>
+    </div>
+
+    <div class="doctor_info">
+        <p class="first">Current Availability:</p>
+        <p>
+            {% if doctor_data.availability %}
+            <i class="fa fa-child" style="color: green; font-size: 24px;"></i> (Available)
+            {% else %}
+            <i class="fa fa-ban" style="color: red; font-size: 24px;"></i> (Unavailable)
+            {% endif %}
+
+        </p>
+    </div>
+    <hr>
+</div>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="rating rating2">
+        <label for="">
+            Rating
+        </label>
+        <a id="firsty" href="#1" title="Give 5 stars" data-value="1">★</a>
+        <a id="secondy" href="#2" title="Give 4 stars" data-value="2">★</a>
+        <a id="thirdy" href="#3" title="Give 3 stars" data-value="3">★</a>
+        <a id="fourthy" href="#4" title="Give 2 stars" data-value="4">★</a>
+        <a id="fifthy" href="#5" title="Give 1 star" data-value="5">★</a>
+        <button class="submit" type="submit">Comment <i class="fa fa-send"
+                style="font-size:24px; padding-left: 6px; color: rgb(255, 255, 255);"></i>
+        </button>
+    </div>
+</form>
+
+<h2 style="text-align: center;">
+    <hr>
+    View the Comments
+    <hr>
+</h2>
+
+{% for commentss in doctor_specific_comments %}
+<div class="view-commennt">
+    <div class="ahead">
+
+        <div class="name">
+            {{ commentss.patient }}
+        </div>
+        <div class="comment">
+            {{ commentss.review_comment }}
+        </div>
+        <div class="time">{{ commentss.review_date }}</div>
+    </div>
+    <div class="later">
+
+        <div class="rating_show">
+            {% if commentss.review_rating == 1 %}
+            <a id="" href="#1" title="Give 5 stars" data-value="1">★</a>
+
+            {% elif commentss.review_rating == 2 %}
+            <a id="" class="color-rated given" href="#1" title="Give 5 stars" data-value="1">★</a>
+            <a id="" class="color-rated given" href="#2" title="Give 4 stars" data-value="2">★</a>
+            {% elif commentss.review_rating == 3 %}
+            <a id="" class="color-rated given" href="#1" title="Give 5 stars" data-value="1">★</a>
+            <a id="" class="color-rated given" href="#2" title="Give 4 stars" data-value="2">★</a>
+            <a id="" class="color-rated given" href="#3" title="Give 3 stars" data-value="3">★</a>
+            {% elif commentss.review_rating == 4 %}
+            <a id="" class="color-rated given" href="#1" title="Give 5 stars" data-value="1">★</a>
+            <a id="" class="color-rated given" href="#2" title="Give 4 stars" data-value="2">★</a>
+            <a id="" class="color-rated given" href="#3" title="Give 3 stars" data-value="3">★</a>
+            <a id="" class="color-rated given" href="#4" title="Give 2 stars" data-value="4">★</a>
+            {% elif commentss.review_rating == 5 %}
+            <a id="" class="color-rated given" href="#1" title="Give 5 stars" data-value="1">★</a>
+            <a id="" class="color-rated given" href="#2" title="Give 4 stars" data-value="2">★</a>
+            <a id="" class="color-rated given" href="#3" title="Give 3 stars" data-value="3">★</a>
+            <a id="" class="color-rated given" href="#4" title="Give 2 stars" data-value="4">★</a>
+            <a id="" class="color-rated given" href="#5" title="Give 1 star" data-value="5">★</a>
+            {% endif %}
+        </div>
+        {% if commentss.patient == patient %}
+        <div class="action">
+            <a href="{% url 'mainapp:delete_comments' commentss.id %}"><i class="fa fa-trash"></i>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    document.getElementById('id_doctor').value = "{{ doctor_data.id }}"
+    document.getElementById('id_patient').value = "{{ patient.id }}"
+    console.log("{{ patient.id }}");
+
+    $(".rating a").on('click', function (e) {
+        let value = $(this).data('value');
+        // let clicked_id = $(this).target('id');
+        let clicked_id = e.target.id;
+        console.log('clicked_id');
+        console.log(clicked_id);
+        if (clicked_id == 'firsty') {
+            document.getElementById('firsty').classList.add("color-rated");
+            // Remove
+            document.getElementById('secondy').classList.remove("color-rated");
+            document.getElementById('thirdy').classList.remove("color-rated");
+            document.getElementById('fourthy').classList.remove("color-rated");
+            document.getElementById('fifthy').classList.remove("color-rated");
+        }
+        else if (clicked_id == 'secondy') {
+            document.getElementById('firsty').classList.add("color-rated");
+            document.getElementById('secondy').classList.add("color-rated");
+            // Remove
+            document.getElementById('thirdy').classList.remove("color-rated");
+            document.getElementById('fourthy').classList.remove("color-rated");
+            document.getElementById('fifthy').classList.remove("color-rated");
+
+        }
+        else if (clicked_id == 'thirdy') {
+            document.getElementById('firsty').classList.add("color-rated");
+            document.getElementById('secondy').classList.add("color-rated");
+            document.getElementById('thirdy').classList.add("color-rated");
+
+            // Remove
+            document.getElementById('fourthy').classList.remove("color-rated");
+            document.getElementById('fifthy').classList.remove("color-rated");
+
+        }
+        else if (clicked_id == 'fourthy') {
+            document.getElementById('firsty').classList.add("color-rated");
+            document.getElementById('secondy').classList.add("color-rated");
+            document.getElementById('thirdy').classList.add("color-rated");
+            document.getElementById('fourthy').classList.add("color-rated");
+            document.getElementById('thirdy').classList.add("color-rated");
+            // Remove
+            document.getElementById('fifthy').classList.remove("color-rated");
+        }
+        else if (clicked_id == 'fifthy') {
+            document.getElementById('firsty').classList.add("color-rated");
+            document.getElementById('secondy').classList.add("color-rated");
+            document.getElementById('thirdy').classList.add("color-rated");
+            document.getElementById('fourthy').classList.add("color-rated");
+            document.getElementById('fifthy').classList.add("color-rated");
+
+        }
+        else {
+            console.log("Not selected");
+        }
+        $.ajax({
+            success: function (d) {
+                document.getElementById('id_review_rating').value = value;
+                document.getElementById('id_review_rating').value = value;
+            }
+        })
+    });
+</script>
+
+
+{% endblock script %}

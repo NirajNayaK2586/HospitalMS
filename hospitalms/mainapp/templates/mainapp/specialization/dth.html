@@ -1,0 +1,169 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+
+{% block header %}
+<style>
+    #profile-cards {
+        /* background: #222; */
+        /* height: 100vh; */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        place-items: center;
+        font-family: Montserrat;
+        color: #b3afbf;
+        padding: 54px 54px;
+        margin: 12px 54px;
+    }
+
+    .card {
+        padding: 15px;
+        width: 350px;
+
+        border: 1px solid #4d9ffe;
+        border-radius: 5px;
+        text-align: center;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.7);
+        user-select: none;
+        margin: 12px 24px;
+    }
+
+    @media (max-width: 767px) {
+
+        #profile-cards {
+            margin: 12px 12px;
+        }
+
+        .card {
+            margin: 34px 4px;
+        }
+    }
+
+    .cover-photo {
+        position: relative;
+        /* background: url(https://i.imgur.com/jxyuizJ.jpeg);
+        background-size: cover;
+        height: 180px;
+        border-radius: 5px 5px 0 0; */
+    }
+
+    .profile {
+        position: absolute;
+        width: 120px;
+        bottom: -60px;
+        left: 15px;
+        border-radius: 50%;
+        border: 2px solid rgb(255, 255, 255);
+        background: #4d9ffe;
+        padding: 5px;
+    }
+
+    .profile-name {
+        font-size: 20px;
+        margin: 25px 0 0 120px;
+        color: #412855;
+        font-style: bold;
+    }
+
+    .about {
+        margin-top: 30px;
+        line-height: 1.6;
+        color: #4d9ffe;
+        font-style: italic;
+    }
+
+    .btn {
+        margin: 30px 15px;
+        background: #412855;
+        padding: 10px 25px;
+        border-radius: 24px;
+        border: 1px solid #7ce3ff;
+        font-weight: bold;
+        font-family: Montserrat;
+        cursor: pointer;
+        color: #222;
+        transition: 0.2s;
+        -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+    }
+
+    .btn:last-of-type {
+        background: #412855;
+        border-color: #412855;
+        color: #7ce3ff;
+    }
+
+    .btn a {
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        border: 1px solid #412855;
+        color: #222;
+        background: #ffffff;
+    }
+
+    .btn:hover a {
+        color: #412855;
+    }
+
+    .no-doctors{
+        margin: 0 auto;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        text-align: center;
+        width: fit-content;
+        padding: 24px;
+        border-radius: 24px;
+        color: red;
+    }
+</style>
+{% endblock header %}
+{% block content %}
+<h2 style="text-align: center;">Doctors from the Ayurveda Specialization</h2>
+{% if doctors %}
+<section id="profile-cards">
+    {% for doctors in doctors %}
+
+    <div class="card">
+        <div class="cover-photo">
+            {% if doctors.doctor_image %}
+            <img src="{{ doctors.doctor_image.url }}" class="profile" width="120px" height="120px">
+            {% else %}
+            <img src="{% static 'img/default.jfif' %}" class="profile" width="120px" height="120px">
+            {% endif %}
+        </div>
+        <h3 class="profile-name">Name: {{ doctors.User }}</h3>
+        <p class="about">Specialization: {{ doctors.specialization }} <br>
+            Availability:
+            {% if doctors.availability %}
+            <span style="color: green;">
+                Yes
+            </span>
+            {% else %}
+            <span style="color: red;">
+                No
+            </span>
+            {% endif %}
+        </p>
+        <p class="about">{{ doctors.short_description }}</p>
+        <button class="btn">
+            <a href="{% url 'mainapp:doctors_view_details' doctors.id %}">
+                Doctor Details
+            </a>
+        </button>
+    </div>
+    <br>
+    {% endfor %}
+</section>
+
+{% else %}
+
+<section class="no-doctors">
+    <h2>Sorry, No doctors are are available for this specialization.</h2>
+</section>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,332 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+
+{% block header %}
+
+<style>
+    #profile-details-section {
+        margin: 24px 154px;
+    }
+
+    @media (max-width: 768px) {
+        #profile-details-section {
+            margin: 24px;
+        }
+    }
+
+    .container {
+        display: flex;
+    }
+
+    @media (max-width: 767px) {
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+
+    .left-section {
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        width: 100%;
+        height: fit-content;
+        padding: 24px;
+        border-radius: 24px;
+    }
+
+    .left-section img {
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        border: 1px solid red;
+        text-align: center;
+    }
+
+    .left-section p.name {
+        text-align: center;
+
+    }
+
+    .left-top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .doctor_info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .doctor_info p {
+        padding: 2px;
+    }
+
+    .first {
+        font-weight: bold;
+    }
+
+    .blue-tick {
+        color: #4d9ffe;
+    }
+
+    /* --------------------------------------------------
+                Right Section CSS coding
+    -----------------------------------------------------*/
+
+    .right-section {
+        width: 100%;
+        height: fit-content;
+        margin: 0px 12px;
+    }
+
+    .right-top-div {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        border-radius: 24px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .right-top-div .gi {
+        display: flex;
+        border-bottom: 1px solid rgb(194, 189, 189);
+        padding: 0px 12px;
+    }
+
+    .left-col {
+        font-weight: bold;
+        padding: 6px;
+        border-right: 1px solid rgb(194, 189, 189);
+    }
+
+    .mid-col {
+        padding: 6px;
+        border-right: 1px solid rgb(194, 189, 189);
+    }
+
+    .right-col {
+        padding: 6px;
+
+    }
+
+    .right-bottom-div {
+        padding: 24px;
+        border-radius: 24px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        margin-top: 24px;
+
+    }
+
+    /* ----------------------------------------------------------
+             Appointment form
+    ------------------------------------------------------------- */
+
+    #id_appointment_time,
+    #id_message,
+    #id_appointment_date {
+        border: 1px solid #4d9ffe;
+        padding: 0.2rem 0.8rem;
+        display: block;
+        margin: 6px;
+        padding: 12px;
+    }
+
+    .warning {
+        background: red;
+        color: #ffffff;
+        padding: 12px 16px;
+        width: fit-content;
+        border-radius: 24px;
+    }
+
+    .success{
+        background: green;
+        color: #ffffff;
+        padding: 12px 16px;
+        width: fit-content;
+        border-radius: 24px;
+    }
+
+    .submit {
+        border: none;
+        padding: 15px 70px;
+        border-radius: 8px;
+        display: block;
+        margin: auto;
+        margin-top: 2px;
+        background: #583672;
+        color: #fff;
+        font-weight: bold;
+        -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        transition: 0.45s all;
+    }
+
+    .submit:hover {
+        cursor: pointer;
+        border: 1px solid #583672;
+        background: #ffffff;
+        color: #583672;
+        transition: 0.45s all;
+    }
+
+    form p:nth-child(1) {
+        display: none;
+    }
+
+    form p:nth-child(2) {
+        display: none;
+    }
+
+    form p:nth-child(3) {
+        display: none;
+    }
+
+    .review_and_comments{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+       
+    }
+    .review_and_comments a{
+        text-decoration: none;
+        padding: 12px;
+        border: 2px solid #412855;
+        color: #412855;
+        border-radius: 24px;
+        transition: 0.45s all;
+        margin-top: 12px;
+    }
+
+    .review_and_comments a:hover{
+        /* border: 2px solid #412855; */
+        background: #412855;
+        color: #ffffff;
+        transition: 0.45s all;
+        padding: 12px 16px;
+
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+{% endblock header %}
+
+
+{% block content %}
+
+<section id="profile-details-section">
+    <div class="container">
+        <div class="left-section">
+            <div class="left-top">
+                <img src="{% static 'img/fd.png' %}" alt=""><br>
+                <p class="name">
+                    {{ user_data.username }}
+                    {% if doctor_data.verify %}
+                    <i class="fa fa-check-circle blue-tick"></i>
+                    {% else %}
+                    <i class="fa fa-exclamation-triangle blue-tick"></i>
+                    {% endif %}
+                </p>
+            </div>
+            <hr>
+            <div class="doctor_info">
+                <p class="first">Specialization: </p>
+                <p>{{ doctor_data.specialization }}</p>
+            </div>
+
+            <div class="doctor_info">
+                <p class="first">Current Availability:</p>
+                <p>
+                    {% if doctor_data.availability %}
+                    <i class="fa fa-child" style="color: green; font-size: 24px;"></i> (Available)
+                    {% else %}
+                    <i class="fa fa-ban" style="color: red; font-size: 24px;"></i> (Unavailable)
+                    {% endif %}
+
+                </p>
+            </div>
+            <hr>
+            <div class="review_and_comments">
+                <a href="{% url 'mainapp:review_and_comment' doctor_data.id %}">Review and Comments</a>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="right-top-div">
+
+                <p>
+                    <i class="fa fa-copy" style="font-size:24px"></i>
+                    <b> General information </b>
+                </p>
+                <div class="gi">
+                    <p class="left-col">Email</p>
+                    <p class="mid-col">:</p>
+                    <p class="right-col">{{ user_data.email }}</p>
+                </div>
+
+                <div class="gi">
+                    <p class="left-col">Phone</p>
+                    <p class="mid-col">:</p>
+                    <p class="right-col">
+                        {{ user_data.username }}
+                    </p>
+                </div>
+
+                <div class="gi">
+                    <p class="left-col">First Name</p>
+                    <p class="mid-col">:</p>
+                    <p class="right-col">{{ user_data.first_name }}</p>
+                </div>
+
+                <div class="gi">
+                    <p class="left-col">Last Name</p>
+                    <p class="mid-col">:</p>
+                    <p class="right-col">{{ user_data.last_name }}</p>
+                </div>
+            </div>
+            <div class="right-bottom-div">
+                <i class="fa fa-file" style="font-size:24px"></i>
+                <b> Other information </b>
+                <p>{{ doctor_data.short_description }}
+                </p>
+            </div>
+            <div class="right-bottom-div">
+                <h2>Appointment Form</h2>
+                <hr>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                </ul>
+                <hr>
+                {% endif %}
+
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ appointment_form.as_p }}
+                    <button class="submit" type="submit">Book Now</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+ document.getElementById('id_doctor').value = "{{ doctor_data.id }}"
+ document.getElementById('id_booked_by').value = "{{ user.id }}"
+</script>
+
+
+{% endblock script %}

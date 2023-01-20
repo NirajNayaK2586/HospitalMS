@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django import forms
 from django.forms.widgets import Textarea
-from .models import CustomUser, Receptionist, Doctor, Patient
+from .models import CustomUser, Receptionist, Doctor, Patient, Appointments, ReviewComment
 from django.contrib.auth.models import User
 
 class CustomUserCreationForm(UserCreationForm):
@@ -33,6 +33,28 @@ class CustomPCreationForm(forms.ModelForm):
         model = Patient
         fields = ['address']
 
+class DateInput(forms.DateTimeInput):
+    input_type = 'date'
+
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
+
+class AppointmentForm(forms.ModelForm):
+
+    class Meta:
+        model = Appointments
+        fields = ['doctor', 'booked_by', 'appointment_date','appointment_time','message']
+        widgets = {
+            'appointment_date': DateInput(),
+            'appointment_time': TimeInput(),
+        }
+
+
+class ReviewCommentForm(forms.ModelForm):
+
+    class Meta:
+        model = ReviewComment
+        fields = '__all__'
 
 """""""""" Updating forms"""""""""""
 
@@ -54,7 +76,7 @@ class CustomRUserUpdateForm(forms.ModelForm):
 class CustomDUserUpdateForm(forms.ModelForm):
     class Meta:
         model = Doctor
-        fields = ['specialization', 'availability']
+        fields = ['specialization', 'availability', 'doctor_image']
 
 class CustomPUserUpdateForm(forms.ModelForm):
     class Meta:

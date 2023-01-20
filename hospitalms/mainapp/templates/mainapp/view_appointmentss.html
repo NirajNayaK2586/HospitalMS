@@ -1,0 +1,225 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/change_password.css' %}">
+<link rel="stylesheet"
+    href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    #view_appointments {
+        min-height: 50vh;
+    }
+
+    .table {
+        width: 90%;
+        border-spacing: 0;
+        text-align: left;
+        margin: 0 auto;
+    }
+
+    .table th {
+        font-weight: 300;
+        font-size: 16px;
+        color: #fff;
+        line-height: 26px;
+        padding: 18px 30px;
+    }
+
+    .table thead tr {
+        background: #4d9ffe;
+    }
+
+    .table td {
+        padding: 15px 30px;
+        font-weight: 300;
+        font-size: 16px;
+        color: black-2;
+        line-height: 26px;
+        text-transform: uppercase;
+    }
+
+    .table tbody tr:nth-child(odd) {
+        background: white;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background: #f8fbfc;
+    }
+
+    .table__wrapper {
+        padding-top: 40px;
+    }
+
+    .btn {
+        display: inline-block;
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 25px;
+        text-transform: uppercase;
+        width: 120px;
+        text-align: center;
+        padding: 10px 5px;
+        border-radius: 3px;
+        transition: background 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        color: white;
+    }
+
+    .btn__active {
+        color: #ff0000;
+        border: 2px solid #fb0606;
+    }
+
+    .btn__active:hover {
+        background: #fb0606;
+    }
+
+    .btn__pledged {
+        color: #ff0004;
+        border: 2px solid #f14044;
+    }
+
+    .btn__pledged:hover {
+        background: #f14044;
+    }
+
+    @media (max-width: 768px) {
+        .table td {
+            display: block;
+            text-align: right;
+        }
+
+        .table td:before {
+            content: attr(data-label);
+            float: left;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .table thead display none tr {
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        thead {
+            display: none;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .container {
+            display: flex;
+            flex-direction: column;
+            margin: 24px 24px;
+            padding: 12px;
+        }
+    }
+
+    .image-wala {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .image-wala img {
+        border-radius: 50%;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+        margin-right: 6px;
+    }
+
+    .image-wala p {
+        font-weight: bold;
+    }
+
+    h2.center {
+        text-align: center;
+    }
+</style>
+
+{% endblock header %}
+
+{% block content %}
+<h2 class="center">List of Your Appointments</h2>
+
+<section id="view_appointments">
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    {% if role_my != 'Doctor' %}
+                    <th>Doctor</th>
+                    {% endif %}
+
+                    {% if role_my == 'Doctor' %}
+                    <th>Patient</th>
+                    {% endif %}
+                    <th>Booked At</th>
+                    <th>Appointment Date</th>
+                    <th>Appointment Time</th>
+                    <th>Status</th>
+                    <th>Message</th>
+                    {% if role_my != 'Doctor' %}
+                    <th>Action</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointments in appointments %}
+
+                <tr>
+                    {% if role_my != 'Doctor' %}
+                    <td data-label="Contact ID" class="image-wala">
+                        <img src="{% static 'img/fd.png' %}" alt="" width="50" height="50">
+                        <p>
+                            {{ appointments.doctor }}
+                        </p>
+                    </td>
+                    {% endif %}
+
+                    {% if role_my == 'Doctor' %}
+                    <td data-label="Power">{{ appointments.booked_by }}</td>
+                    {% endif %}
+
+                    <td data-label="Power">{{ appointments.booked_at }}</td>
+                    <td data-label="Expiration">
+                        {% if appointments.appointment_date < send_present %} <p>Expired</p>
+                            {% else %}
+                            {{ appointments.appointment_date }}
+                            {% endif %}
+                    </td>
+                    <td data-label="Value">{{ appointments.appointment_time }}</td>
+                    <td data-label="Value">
+                        {% if appointments.status %}
+                        <i class="fa fa-circle"
+                            style="font-size:24px; color: green; box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;"
+                            title="Active"></i>
+
+                        {% else %}
+                        <i class="fa fa-circle"
+                            style="font-size:24px; color: red; box-shadow: rgba(0, 0, 0, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;"
+                            title="This Appointment has been rejected from admin side."></i>
+
+                        {% endif %}
+                    </td>
+                    <td data-label="Value">{{ appointments.message }}</td>
+                    {% if role_my != 'Doctor' %}
+
+                    <td data-label=""><a href="{% url 'mainapp:delete_appointments' appointments.id %}"
+                            class="btn btn__active"
+                            onclick="return confirm('Are you sure you want to delete?')">Cancel</a></td>
+                    {% endif %}
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+{% endblock content %}
