@@ -92,9 +92,10 @@ class Report(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     report = models.FileField(upload_to='report_file')
     doctor_review = models.TextField(blank=True)
-
+    added_date = models.DateTimeField(auto_now=True, null=True)
+    # I could link the appointment if necessary later
     def __str__(self):
-        return self.report_title
+        return '%s %s %s' % (self.report_title,self.patient, self.doctor)
 
 ''' Comment and review model'''
 class ReviewComment(models.Model):
@@ -114,7 +115,8 @@ class Bills(models.Model):
     patient =models.ForeignKey(Patient, on_delete=models.CASCADE)
     issue_date = models.DateTimeField(auto_now=True)
     bill = models.FileField(upload_to='bills_file')
-    
+    paid = models.BooleanField(default=False)
+
     def __str__(self):
         return self.bill_title
 

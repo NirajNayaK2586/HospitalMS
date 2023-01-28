@@ -14,6 +14,6 @@ class HealthPackages(models.Model):
     description = models.TextField(max_length=500)
     image = models.FileField(upload_to='package_image', blank=True)
     added_date = models.DateTimeField(auto_now=True)
-
+    # add widget for text edit
     def __str__(self):
         self.package_title

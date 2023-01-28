@@ -44,13 +44,21 @@
 
 </div>
 <div class="list-profile-options">
-
+    
     <div class="appointments"><a href="{% url 'mainapp:view_appointments' request.user.id %}"> View Appointments </a>
     </div>
-
+    
+    <div class="reports">
+        <a href="{% url 'mainapp:view_reports' request.user.id %}"> Reports </a>
+    </div>
+    
+    
+</div>
+<div class="list-profile-options">
     <div class="logout">
         <a href="{% url 'mainapp:logout_view' %}"> Logout </a>
     </div>
 </div>
+
 
 {% endblock content %}

@@ -6,7 +6,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView, PasswordResetDoneView
 from django.urls import reverse_lazy
-from .models import CustomUser, Receptionist, Doctor, Patient, Appointments, ReviewComment
+from .models import CustomUser, Receptionist, Doctor, Patient, Appointments, ReviewComment, Report
 from mainapp.forms import UserUpdateForm, CustomUserUpdateForm, CustomRUserUpdateForm, CustomDUserUpdateForm, CustomPUserUpdateForm, AppointmentForm, ReviewCommentForm
 from datetime import datetime
 
@@ -264,6 +264,7 @@ def doctors_view_details(request, id):
    
     return render(request, template_name, {'doctor_data': doctor_data, 'user': user, 'user_data': user_data, 'errors': errors, 'appointment_form': form})
 
+
 # Users can review and comment the doctors
 
 def review_and_comment(request, id):
@@ -317,6 +318,28 @@ def view_appointments(request, id):
     present = datetime.now()
     send_present = str(present)
     return render(request, template_name, {'appointments': appointments, 'send_present': send_present, 'role_my': role_my})
+
+
+# Users can view their associated reports
+
+def view_reports(request, id):
+    template_name = 'mainapp/view_report.html'
+    logged_in_user = CustomUser.objects.get(id = id)
+    if str(logged_in_user.role) != 'Doctor':
+        logged_in_patient = Patient.objects.get(User = id)
+        report = Report.objects.filter(patient = logged_in_patient) 
+        role_my = ''
+    else:
+        logged_in_doctor = Doctor.objects.get(User = id)
+        appointments = Appointments.objects.filter(doctor = id)
+        report = Report.objects.filter(doctor = logged_in_doctor.id) 
+        
+        role_my = 'Doctor'
+        print('appointment by doctor')
+        print(appointments)
+    return render(request, template_name, {'reports': report, 'role_my': role_my})
+
+
 
 # User can cancel or delete the appointments made by them
 

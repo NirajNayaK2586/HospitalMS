@@ -37,6 +37,10 @@ urlpatterns = [
     # User can view their booked appointments
     path('view_appointmentss/<int:id>', views.view_appointments, name='view_appointments'),
 
+     # User can view their Reports
+    path('view_reports/<int:id>', views.view_reports, name='view_reports'),
+
+
     # User can delete the booked appointments
     path('delete_appointment/<int:id>', views.delete_appointments, name='delete_appointments'),
     
@@ -46,5 +50,5 @@ urlpatterns = [
     #Users can delete their comments
     path('delete_comments/<int:id>', views.delete_comments, name='delete_comments'),
 
-
+    
 ]
