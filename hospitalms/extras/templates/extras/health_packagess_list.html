@@ -1,0 +1,119 @@
+{% extends 'mainapp/base.html' %}
+
+{% load static %}
+
+{% block header %}
+<style>
+    h2.center {
+        text-align: center;
+        font-weight: bolder;
+        color: #412855;
+    }
+
+    .container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        flex-wrap: wrap;
+        -ms-flex-pack: justify;
+        justify-content: space-around;
+        padding: 4px 16px;
+        margin: 54px 124px;
+        min-height: 25vh;
+    }
+
+    @media (max-width: 767px) {
+        .container {
+            margin: 24px 24px;
+        }
+    }
+
+    .small-cardu {
+        width: 18rem;
+        box-shadow: #87ceeb 0px 25px 20px -20px;
+        padding: 32px;
+        margin: 34px 0px;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .cardu-left h4 {
+        color: #412855;
+    }
+
+    a {
+        text-decoration: none;
+        color: #412855;
+    }
+
+    a:hover .small-cardu {
+        background: #f1fafd;
+        box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+    }
+
+    .cardu-left span {
+        font-style: italic;
+        font-size: 80%;
+    }
+
+    span.price {
+        color: #412855;
+        font-size: 220%;
+        text-shadow: 2px 0px 2px rgba(0, 0, 0, 0.6);
+    }
+
+    span.rs {
+        opacity: 0.67;
+    }
+</style>
+{% endblock header %}
+
+{% block content %}
+
+<h2 class="center">
+    {{ hp.package_title_main }}
+</h2>
+{% if sp_hp %}
+
+<section id="sp_hp">
+    <div class="container">
+        {% for sp_hp in sp_hp %}
+        <a href="{% url 'extras:sp_health_packagess' sp_hp.id %}">
+
+            <div class="small-cardu">
+                <div class="cardu-left">
+
+                    <h4>{{ sp_hp.package_title }}</h4>
+                    <span>Includes {{ sp_hp.total_tests }} tests</span>
+                </div>
+                <div class="cardu-right">
+                    <div>
+                        <span class="rs">Rs</span> <span class="price">{{ sp_hp.package_price }}</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+
+    </div>
+</section>
+
+
+
+{% else %}
+
+
+
+<h2 class="center">Available packages are None.</h2>
+{% endif %}
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script%}

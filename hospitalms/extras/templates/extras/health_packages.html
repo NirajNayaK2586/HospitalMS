@@ -1,0 +1,241 @@
+{% extends 'mainapp/base.html' %}
+
+{% load static %}
+
+{% block header %}
+<style>
+    h2.center {
+        text-align: center;
+        font-weight: bolder;
+        color: #412855;
+    }
+
+    .container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        flex-wrap: wrap;
+        -ms-flex-pack: justify;
+        justify-content: flex-start;
+        padding: 4px 16px;
+        margin: 54px 124px;
+        min-height: 25vh;
+    }
+
+    @media (max-width: 767px) {
+        .container {
+            margin: 24px 24px;
+        }
+    }
+
+    .card {
+        width: 24rem;
+        border-radius: 24px;
+        /* border: 1px solid #412855; */
+        margin: 6px 16px;
+    }
+
+    .card img {
+        border-radius: 24px 0px 24px 0px;
+        height: 18rem;
+    }
+
+    .card a {
+        text-decoration: none;
+        border: none;
+        padding: 15px 70px;
+        border-radius: 8px 0px 8px 0px;
+        display: block;
+        margin: auto;
+        margin-top: 12px;
+        background: #583672;
+        color: #fff;
+        font-weight: bold;
+        -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        text-align: center;
+        transition: 0.45s all;
+    }
+
+    .card a:hover {
+        text-decoration: none;
+        border: 1px solid #583672;
+        padding: 15px 70px;
+        border-radius: 0px 8px 0px 8px;
+        display: block;
+        margin: auto;
+        margin-top: 12px;
+        background: #ffffff;
+        color: #583672;
+        font-weight: bold;
+        -webkit-box-shadow: 0px 2px 9px -11px rgba(88, 54, 114, 1);
+        -moz-box-shadow: 0px 2px 9px -11px rgba(88, 54, 114, 1);
+        box-shadow: 0px 2px 9px -11px rgba(88, 54, 114, 1);
+        transition: 0.45s all;
+    }
+
+    /* ---------------------------------------------------------------------
+                                Jumbotron CSS
+    ------------------------------------------------------------------------ */
+
+    #jumbotron {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .left-of-jumbotron {
+
+        width: 50%;
+        text-align: center;
+    }
+
+    .left-of-jumbotron img {
+        width: 50%;
+        box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+
+    }
+
+    @media (max-width: 767px) {
+        .left-of-jumbotron {
+            width: 100%;
+            text-align: center;
+        }
+
+        .left-of-jumbotron img {
+            width: 100%;
+        }
+    }
+
+    .right-of-jumbotron {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* align-items: center; */
+        padding: 0px 54px;
+        box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    }
+
+    .extra {
+        box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    }
+
+    /*  Animate  */
+
+    .down-arrow {
+        position: absolute;
+        /* top: calc(100vh - 60px); */
+        top: 32rem;
+        left: calc(50% - 14px);
+        width: 0;
+        height: 30px;
+        border: 2px solid;
+        border-radius: 2px;
+    }
+
+    @media (max-width: 767px) {
+        .down-arrow {
+            display: none;
+        }
+    }
+
+    .extra ul{
+        padding: 12px;
+    }
+
+    .extra ul li{
+        padding: 6px;
+    }
+
+    .down-arrow:after {
+        content: " ";
+        position: absolute;
+        top: 12px;
+        left: -10px;
+        width: 16px;
+        height: 16px;
+        border-bottom: 4px solid;
+        border-right: 4px solid;
+        border-radius: 4px;
+        transform: rotateZ(45deg);
+    }
+
+    @keyframes jumpInfinite {
+        0% {
+            margin-top: 0;
+        }
+
+        50% {
+            margin-top: 20px;
+        }
+
+        100% {
+            margin-top: 0;
+        }
+    }
+
+    .down-arrow {
+        animation: jumpInfinite 1.5s infinite;
+    }
+</style>
+{% endblock header %}
+
+{% block content %}
+
+<!-- Jumbotron section -->
+
+<section id="jumbotron">
+    <div class="left-of-jumbotron">
+        <img src="{% static 'img/healthpackages.png' %}" alt="Image">
+    </div>
+    <div class="right-of-jumbotron">
+        <div class="extra">
+            <h2>Suitable Health Packages</h2>
+            <h4>Select from the multiple health packages at the hospital of your choice.</h4>
+            <ul>
+                <li>Multiple Health Packages at affordable costs.</li>
+                <li>Quality Service</li>
+                <li>Easy Payment gateways</li>
+                <li>Instant Follow Up</li>
+            </ul>
+        </div>
+    </div>
+    <div class="down-arrow"></div>
+</section>
+
+
+<div class="container">
+    {% if hpmains %}
+    {% for hpmains in hpmains %}
+    <div class="card">
+        <img src="{{ hpmains.image.url }}" alt="Animals" style="width:100%">
+        <div class="in-container">
+            <!-- <hr> -->
+            <h4>
+                <a href="{% url 'extras:health_packagess' hpmains.id %}">
+                    <b>{{ hpmains.package_title_main }}</b>
+                </a>
+            </h4>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="">
+        <h2 class="center">Oh no ! No any packages are available</h2>
+    </div>
+    {% endif %}
+
+</div>
+
+
+
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script%}

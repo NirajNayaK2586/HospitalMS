@@ -51,8 +51,8 @@
                     <li>
                         <a href="#!">About</a>
                     </li>
-                    <li>
-                        <a href="#!">Health Packages</a>
+                    <li class="{% if url_name == 'health_packages' %}active {% endif %}">
+                        <a href="{% url 'extras:health_packages' %}">Health Packages</a>
                     </li>
                     <li>
                         <a href="#!">Childcare</a>
@@ -118,7 +118,7 @@
                                 <a target="_blank" rel="noopener noreferrer" href="{% url 'mainapp:doctors_specialization_view' %}">Book Appointment</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page">
-                                <a href="#">View packages</a>
+                                <a href="{% url 'extras:health_packages' %}">View packages</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page">
                                 <a href="#">Child Care</a>

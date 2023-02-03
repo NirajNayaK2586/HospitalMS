@@ -111,12 +111,17 @@ class ReviewComment(models.Model):
 
 ''' Bills model '''
 class Bills(models.Model):
+    METHOD = (
+        ("Cash On Delivery", "Cash On Delivery"),
+        ("Khalti", "Khalti"),
+    )
     bill_title = models.CharField(max_length=50)
     patient =models.ForeignKey(Patient, on_delete=models.CASCADE)
     issue_date = models.DateTimeField(auto_now=True)
     bill = models.FileField(upload_to='bills_file')
-    paid = models.BooleanField(default=False)
-
+    paid = models.BooleanField(default=False, null=True, blank=True)
+    payment_method = models.CharField(max_length=50, choices=METHOD, default = "Cash On Delivery")
+   
     def __str__(self):
         return self.bill_title
 

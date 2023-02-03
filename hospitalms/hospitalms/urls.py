@@ -25,6 +25,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls), # admin site
     path('', include('mainapp.urls')),
+    path('extras/', include('extras.urls')),
 
     path('password-reset/', auth_views.PasswordResetView.as_view(template_name='mainapp/password_reset.html'), name='password_reset'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='mainapp/password_reset_done.html'), name='password_reset_done'),
