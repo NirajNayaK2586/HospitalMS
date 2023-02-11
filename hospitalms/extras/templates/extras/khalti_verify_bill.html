@@ -1,0 +1,180 @@
+{% extends 'mainapp/base.html' %}
+
+{% load static %}
+
+{% block header %}
+<style>
+    h2.center {
+        text-align: center;
+        font-weight: bolder;
+        color: #412855;
+    }
+
+    .container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        flex-wrap: wrap;
+        -ms-flex-pack: justify;
+        justify-content: center;
+        padding: 24px 16px;
+        margin: 54px 124px;
+        min-height: 25vh;
+        background-color: #ffffff;
+        opacity: 0.8;
+        background-image: radial-gradient(#4d9ffe 0.5px, #f4f6f9 0.5px);
+        background-size: 10px 10px;
+    }
+
+    @media (max-width: 767px) {
+        .container {
+            margin: 24px 24px;
+        }
+    }
+
+
+    .breadcrumbs {
+        padding: 4px 16px;
+        margin: 54px 124px;
+    }
+
+    .breadcrumbs a {
+        text-decoration: none;
+        color: #412855;
+        font-style: italic;
+    }
+
+    @media (max-width: 767px) {
+        .breadcrumbs {
+            margin: 24px 24px;
+        }
+    }
+
+    span.price {
+        color: #412855;
+        font-size: 220%;
+        text-shadow: 2px 0px 2px rgba(0, 0, 0, 0.6);
+    }
+
+    span.rs {
+        opacity: 0.67;
+    }
+
+    #payment-button {
+        border: none;
+        padding: 15px 70px;
+        border-radius: 8px;
+        display: block;
+        margin: auto;
+        background: #583672;
+        color: #fff;
+        font-weight: bold;
+        -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        transition: 0.45s all;
+    }
+
+    #payment-button:hover {
+        border: 2px solid #583672;
+        background: none;
+        padding: 15px 70px;
+        border-radius: 8px;
+        display: block;
+        margin: auto;
+        color: #583672;
+        font-weight: bold;
+        -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        cursor: pointer;
+        transition: 0.45s all;
+    }
+
+    .username-bar {
+        word-wrap: normal;
+        background: #87ceeb;
+        border: none;
+        border-bottom: 1px solid black;
+        padding: 12px;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+    }
+</style>
+
+<script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+
+{% endblock header %}
+
+{% block content %}
+
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+        </li>
+        {% endfor %}
+</ul>
+{% endif %}
+
+<section id="khalti">
+    <div class="container">
+        <h2 class="center">
+            The total payment amount is Rs. {{ package_orderd.package_price }}
+        </h2>
+        <p><i>Download your bill from Bills section in the profile page.</i></p>
+        <!-- Place this where you need payment button -->
+        <button id="payment-button">Pay with Khalti</button>
+        <!-- Place this where you need payment button -->
+        <!-- Paste this code anywhere in you body tag -->
+    </div>
+</section>
+
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    var config = {
+        // replace the publicKey with yours
+        "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
+        "productIdentity": "1234567890",
+        "productName": "Dragon",
+        "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+        "paymentPreference": [
+            "KHALTI",
+            "EBANKING",
+            "MOBILE_BANKING",
+            "CONNECT_IPS",
+            "SCT",
+        ],
+        "eventHandler": {
+            onSuccess(payload) {
+                // hit merchant api for initiating verfication
+                console.log(payload);
+            },
+            onError(error) {
+                console.log(error);
+            },
+            onClose() {
+                console.log('widget is closing');
+            }
+        }
+    };
+
+    var checkout = new KhaltiCheckout(config);
+    var btn = document.getElementById("payment-button");
+    btn.onclick = function () {
+        // minimum transaction amount must be 10, i.e 1000 in paisa.
+        checkout.show({ amount: 1000 });
+    }
+</script>
+{% endblock script%}

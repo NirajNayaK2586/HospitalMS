@@ -7,6 +7,33 @@
     href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+    .container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-direction: row;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: top;
+        -webkit-box-pack: justify;
+        flex-wrap: wrap;
+        -ms-flex-pack: justify;
+        justify-content: space-around;
+        padding: 24px 16px;
+        margin: 54px 124px;
+        min-height: 25vh;
+        background-color: #ffffff;
+        opacity: 0.8;
+        background-image: radial-gradient(#4d9ffe 0.5px, #f4f6f9 0.5px);
+        background-size: 10px 10px;
+    }
+
+    @media (max-width: 767px) {
+        .container {
+            margin: 24px 24px;
+        }
+    }
+
     .list-profile-options {
         display: flex;
         justify-content: center;
@@ -38,27 +65,46 @@
 {% endblock header %}
 
 {% block content %}
-<div class="list-profile-options">
-    <div class="pass"><a href="{% url 'mainapp:password-change-view' %}"> Change Password </a></div>
-    <div class="information"><a href="{% url 'mainapp:update_information' %}"> Update Information </a></div>
 
-</div>
-<div class="list-profile-options">
-    
-    <div class="appointments"><a href="{% url 'mainapp:view_appointments' request.user.id %}"> View Appointments </a>
+<section id="profile">
+    <div class="container">
+        <div class="basic-info-of-user">
+            <h2>
+                Username: {{ user.username }}
+            </h2>
+            <p>
+                Email: {{ user.email }}
+            </p>
+            <p>
+                Phone: {{ user.phone }}
+            </p>
+            <p>
+                Fullname: {{ user.first_name }}
+                {{ user.last_name }}
+            </p>
+        </div>
+        <div class="list-profile-options">
+            <div class="pass"><a href="{% url 'mainapp:password-change-view' %}"> Change Password </a></div>
+            <div class="information"><a href="{% url 'mainapp:update_information' %}"> Update Information </a></div>
+            <div class="appointments"><a href="{% url 'mainapp:view_appointments' request.user.id %}"> View Appointments </a>
+            </div>
+            <div class="reports">
+                <a href="{% url 'mainapp:view_reports' request.user.id %}"> Reports </a>
+            </div>
+        
+            {% if role == 4 %}
+            <div class="reports">
+                <a href="{% url 'mainapp:view_bills' request.user.id %}"> Bills </a>
+            </div>
+            {% endif %}
+            <div class="logout">
+                <a href="{% url 'mainapp:logout_view' %}"> Logout </a>
+            </div>
+        </div>
     </div>
-    
-    <div class="reports">
-        <a href="{% url 'mainapp:view_reports' request.user.id %}"> Reports </a>
-    </div>
-    
-    
-</div>
-<div class="list-profile-options">
-    <div class="logout">
-        <a href="{% url 'mainapp:logout_view' %}"> Logout </a>
-    </div>
-</div>
+</section>
+
+
 
 
 {% endblock content %}

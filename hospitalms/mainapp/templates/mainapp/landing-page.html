@@ -317,7 +317,8 @@
         }
     }
 
-    #view_all_doctors,#view_all_packages{
+    #view_all_doctors,
+    #view_all_packages {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -330,15 +331,15 @@
         border-radius: 24px;
     }
 
-    #view_all_packages{
+    #view_all_packages {
         margin-bottom: 54px;
     }
 
-    .content-view{
+    .content-view {
         padding-right: 12px;
     }
 
-    .view_all_btn{
+    .view_all_btn {
         border: none;
         padding: 15px 70px;
         border-radius: 24px;
@@ -354,13 +355,13 @@
         transition: 0.45s all;
     }
 
-    @media (max-width: 767px){
-        .view_all_btn{
+    @media (max-width: 767px) {
+        .view_all_btn {
             margin-top: 12px;
         }
     }
 
-    .view_all_btn:hover{
+    .view_all_btn:hover {
         border: 2px solid #583672;
         padding: 15px 70px;
         border-radius: 24px;
@@ -376,16 +377,28 @@
         transition: 0.45s all;
         cursor: pointer;
     }
-    .view_all_btn:hover a{
+
+    .view_all_btn:hover a {
         color: #4d9ffe;
         transition: 0.45s all;
     }
-    .view_all_btn a{
+
+    .view_all_btn a {
         color: #ffffff;
         text-decoration: none;
         transition: 0.45s all;
     }
 
+
+    @media only screen and (max-width: 800px) {
+
+        nav ul {
+            display: none;
+            background: 4d9ffe;
+            z-index: 999;
+            position: relative;
+        }
+    }
 </style>
 
 {% endblock header %}
@@ -422,7 +435,8 @@
     Services highlighting section in the landing page
 ------------------------------------------------------- -->
 <div>
-    <h2 style="text-align: center; margin-top: 54px;">Largest and the most trustworthy Healthcare Network Across Nepal</h2>
+    <h2 style="text-align: center; margin-top: 54px;">Largest and the most trustworthy Healthcare Network Across Nepal
+    </h2>
 </div>
 <div class="flexbox">
     <div class="flexcard flexcardGreen">
@@ -455,7 +469,7 @@
         <span>Appointment booking does not require pre payment of appointment charge.</span>
     </div>
     <div class="view_all_btn">
-        <a href="{% url 'mainapp:doctors_specialization_view' %}">View All</a> 
+        <a href="{% url 'mainapp:doctors_specialization_view' %}">View All</a>
     </div>
 </section>
 
@@ -465,15 +479,15 @@
         <span>Body checkup packages at best rates, with pre payment required for packages.</span>
     </div>
     <div class="view_all_btn">
-        <a href="{% url 'extras:health_packages' %}">View All</a> 
+        <a href="{% url 'extras:health_packages' %}">View All</a>
     </div>
 </section>
 
 
-    {% endblock content %}
+{% endblock content %}
 
-    {% block script %}
-    <script src="{% static 'js/particles.js' %}"></script>
-    <script src="{% static 'js/app.js' %}"></script>
+{% block script %}
+<script src="{% static 'js/particles.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
 
-    {% endblock script%}
+{% endblock script%}

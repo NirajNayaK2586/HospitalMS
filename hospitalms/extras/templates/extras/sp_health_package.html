@@ -27,7 +27,7 @@
         min-height: 25vh;
         background-color: #ffffff;
         opacity: 0.8;
-        background-image: radial-gradient(#4d9ffe 0.5px, #ffffff 0.5px);
+        background-image: radial-gradient(#4d9ffe 0.5px, #f4f6f9 0.5px);
         background-size: 10px 10px;
     }
 
@@ -160,7 +160,7 @@
 
         <hr>
 
-        <a class="buy-button" href="#">Buy this Package </a>
+        <a class="buy-button" href="{% url 'extras:buy_package' hp_details.id  %}">Buy this Package </a>
     </div>
 </section>
 

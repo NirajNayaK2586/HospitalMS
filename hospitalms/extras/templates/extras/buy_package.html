@@ -1,0 +1,236 @@
+{% extends 'mainapp/base.html' %}
+
+{% load static %}
+
+{% block header %}
+<style>
+    h2.center {
+        text-align: center;
+        font-weight: bolder;
+        color: #412855;
+    }
+
+    .container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-direction: row;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: top;
+        -webkit-box-pack: justify;
+        flex-wrap: wrap;
+        -ms-flex-pack: justify;
+        justify-content: space-around;
+        padding: 24px 16px;
+        margin: 54px 124px;
+        min-height: 25vh;
+        background-color: #ffffff;
+        opacity: 0.8;
+        background-image: radial-gradient(#4d9ffe 0.5px, #f4f6f9 0.5px);
+        background-size: 10px 10px;
+    }
+
+    @media (max-width: 767px) {
+        .container {
+            margin: 24px 24px;
+        }
+    }
+
+
+    .buy-button {
+        text-decoration: none;
+        border: none;
+        padding: 15px 70px;
+        border-radius: 8px 0px 8px 0px;
+        display: block;
+        margin: auto;
+        margin-top: 12px;
+        background: #583672;
+        color: #fff;
+        font-weight: bold;
+        -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        text-align: center;
+        transition: 0.45s all;
+    }
+
+    .buy-button:hover {
+        text-decoration: none;
+        border: 1px solid #583672;
+        padding: 15px 70px;
+        border-radius: 0px 8px 0px 8px;
+        display: block;
+        margin: auto;
+        margin-top: 12px;
+        background: #ffffff;
+        color: #583672;
+        font-weight: bold;
+        -webkit-box-shadow: 0px 2px 9px -11px rgba(88, 54, 114, 1);
+        -moz-box-shadow: 0px 2px 9px -11px rgba(88, 54, 114, 1);
+        box-shadow: 0px 2px 9px -11px rgba(88, 54, 114, 1);
+        transition: 0.45s all;
+    }
+
+    .breadcrumbs {
+        padding: 4px 16px;
+        margin: 54px 124px;
+    }
+
+    .breadcrumbs a {
+        text-decoration: none;
+        color: #412855;
+        font-style: italic;
+    }
+
+    @media (max-width: 767px) {
+        .breadcrumbs {
+            margin: 24px 24px;
+        }
+    }
+
+    span.price {
+        color: #412855;
+        font-size: 220%;
+        text-shadow: 2px 0px 2px rgba(0, 0, 0, 0.6);
+    }
+
+    span.rs {
+        opacity: 0.67;
+    }
+
+    .submit {
+        border: none;
+        padding: 15px 70px;
+        border-radius: 8px;
+        display: block;
+        margin: auto;
+        margin-top: 24px;
+        background: #583672;
+        color: #fff;
+        font-weight: bold;
+        -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        transition: 0.45s all;
+    }
+
+    .submit:hover {
+        border: 2px solid #583672;
+        background: none;
+        padding: 15px 70px;
+        border-radius: 8px;
+        display: block;
+        margin: auto;
+        margin-top: 24px;
+        color: #583672;
+        font-weight: bold;
+        -webkit-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        -moz-box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        box-shadow: 0px 9px 15px -11px rgba(88, 54, 114, 1);
+        cursor: pointer;
+        transition: 0.45s all;
+    }
+
+    .username-bar {
+        word-wrap: normal;
+        background: #87ceeb;
+        border: none;
+        border-bottom: 1px solid black;
+        padding: 12px;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+    }
+</style>
+{% endblock header %}
+
+{% block content %}
+
+<p class="breadcrumbs">
+    <a href="{% url 'extras:health_packagess' main_p.id %}">
+        {{ main_p.package_title_main }}
+    </a>
+    >
+    <a href="{% url 'extras:sp_health_packagess' health_package.id %}">
+        {{ health_package.package_title }}
+    </a>
+    > Buy Package
+</p>
+
+<section id="main">
+    <div class="container">
+        <div class="informationp">
+            <h2>Patient Information</h2>
+            <p><b>Username : </b> {{ user.username }}</p>
+            <p><b>Email : </b> {{ user.email }}</p>
+            <p><b>Phone : </b> {{ user.phone }}</p>
+            <p><b>First Name : </b> {{ user.first_name }}</p>
+            <p><b>Last Name : </b> {{ user.last_name }}</p>
+            <p><b>Address : </b> {{ patient_information.address }}</p>
+        </div>
+
+        <div class="infomrationpackage">
+            <h2>Package Information</h2>
+            <p><b>Package Name : </b> {{ health_package.package_title }}</p>
+            <p><b>Package Price : </b> Rs. {{ health_package.package_price }}</p>
+            <p><b>Total Tests available : </b>{{ health_package.total_tests }}</p>
+            <p><b>Package Category : </b>{{ main_p.package_title_main }}</p>
+        </div>
+    </div>
+
+</section>
+
+<section id="form">
+    <div class="container">
+        {% if already_purchased == 1 %}
+        <div style="display: flex; align-items: center; justify-content: center;">
+            You have already bought this package.
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                    {{ message }}
+                    </li>
+                    {% endfor %}
+            </ul>
+            {% endif %}
+
+        </div>
+        {% else %}
+        <form id="the_form" action="" method="POST">
+            {% csrf_token %}
+            <h2 class="center">Rs. {{ health_package.package_price }} </h2>
+            <label for="">Payment Method : </label>
+            {{ form.bill_title }}
+            {{ form.patient }}
+            {{ form.package }}
+            {{ form.payment_method }}
+
+            <button class="submit">Buy</button>
+
+        </form>
+        {% endif %}
+    </div>
+</section>
+<!-- {{ form }} -->
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    document.getElementById('id_payment_method').classList.add("username-bar");
+    document.getElementById('id_package').style.display = 'none';
+    document.getElementById('id_patient').style.display = 'none';
+    document.getElementById('id_bill_title').style.display = 'none';
+
+    document.getElementById('id_patient').value = "{{ patient_information.id }}"
+    document.getElementById('id_package').value = "{{ health_package.id }}"
+
+    $('#the_form').submit(function () {
+        location.reload();
+    });
+</script>
+{% endblock script%}

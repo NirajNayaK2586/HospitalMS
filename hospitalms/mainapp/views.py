@@ -6,7 +6,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView, PasswordResetDoneView
 from django.urls import reverse_lazy
-from .models import CustomUser, Receptionist, Doctor, Patient, Appointments, ReviewComment, Report
+from .models import CustomUser, Receptionist, Doctor, Patient, Appointments, ReviewComment, Report, Bills
 from mainapp.forms import UserUpdateForm, CustomUserUpdateForm, CustomRUserUpdateForm, CustomDUserUpdateForm, CustomPUserUpdateForm, AppointmentForm, ReviewCommentForm
 from datetime import datetime
 
@@ -57,7 +57,11 @@ def signupview(request):
 
 def profileview(request):
     template_name = 'mainapp/profile.html'
-    return render(request, template_name)
+    user = request.user
+    role = user.role.id
+    print('type(role)')
+    print(type(role))
+    return render(request, template_name, {'role': role, 'user': user})
 
 class MyPasswordChangeView(PasswordChangeView):
     template_name = 'mainapp/password-change.html'
@@ -81,13 +85,17 @@ def update_information(request):
         myuser = CustomUser.objects.get(id = request.user.id )
 
         user_form = UserUpdateForm(request.POST, instance = request.user)
+        print('user_form')
+        print(user_form)
         custom_user_form = CustomUserUpdateForm(request.POST, instance = myuser)
 
 
-        if user_form.is_valid() and custom_user_form.is_valid():
-            user_form.save()
+        if custom_user_form.is_valid():
             custom_user_form.save()
-            return redirect('/')
+            # user_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+
+            return redirect('/update_information')
 
     else:
         myuser = CustomUser.objects.get(id = request.user.id )
@@ -229,7 +237,7 @@ def doctors_view_details(request, id):
     
     doctor_data = Doctor.objects.get(id=id)
     user_data = CustomUser.objects.get(id = doctor_data.User.id)
-
+    
     if request.method == 'POST':
         user = request.user
         form = AppointmentForm(request.POST)
@@ -261,8 +269,12 @@ def doctors_view_details(request, id):
         form = AppointmentForm()
         errors = ''
         user = request.user
+        string_user = str(user)
+    print('user')
+    print(user)
+    print(type(user))
    
-    return render(request, template_name, {'doctor_data': doctor_data, 'user': user, 'user_data': user_data, 'errors': errors, 'appointment_form': form})
+    return render(request, template_name, {'doctor_data': doctor_data, 'string_user': string_user, 'user': user, 'user_data': user_data, 'errors': errors, 'appointment_form': form})
 
 
 # Users can review and comment the doctors
@@ -338,6 +350,18 @@ def view_reports(request, id):
         print('appointment by doctor')
         print(appointments)
     return render(request, template_name, {'reports': report, 'role_my': role_my})
+
+
+# Users can view their bills
+
+def view_bills(request, id):
+    template_name = 'mainapp/view_bills.html'
+    logged_in_user = CustomUser.objects.get(id = id)
+    logged_in_patient = Patient.objects.get(User = id)
+    bills = Bills.objects.filter(patient = logged_in_patient) 
+    role_my = ''
+   
+    return render(request, template_name, {'bills': bills, 'role_my': role_my})
 
 
 

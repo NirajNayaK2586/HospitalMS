@@ -253,9 +253,20 @@
                 </p>
             </div>
             <hr>
+            {% if string_user != 'AnonymousUser' %}
+
             <div class="review_and_comments">
                 <a href="{% url 'mainapp:review_and_comment' doctor_data.id %}">Review and Comments</a>
             </div>
+
+            {% else %}
+
+            <div class="review_and_comments">
+                <a href="{% url 'mainapp:user_login' %}">Login to comment and view comments</a>
+            </div>
+
+            {% endif %}
+
         </div>
 
         <div class="right-section">
@@ -297,6 +308,7 @@
                 <p>{{ doctor_data.short_description }}
                 </p>
             </div>
+            {% if string_user != 'AnonymousUser' %}
             <div class="right-bottom-div">
                 <h2>Appointment Form</h2>
                 <hr>
@@ -315,7 +327,13 @@
                     <button class="submit" type="submit">Book Now</button>
                 </form>
             </div>
+            {% else %}
+            <div class="right-bottom-div">
+                Please Login to book appointment with the doctor.
 
+                <a href="{% url 'mainapp:user_login' %}">Login</a>
+            </div>
+            {% endif %}
         </div>
     </div>
 </section>

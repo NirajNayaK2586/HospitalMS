@@ -172,7 +172,7 @@
 
                 <tr>
                     {% if role_my != 'Doctor' %}
-                    <td data-label="Contact ID" class="image-wala">
+                    <td data-label="Doctor" class="image-wala">
                         <img src="{% static 'img/fd.png' %}" alt="" width="50" height="50">
                         <p>
                             {{ appointments.doctor }}
@@ -181,18 +181,18 @@
                     {% endif %}
 
                     {% if role_my == 'Doctor' %}
-                    <td data-label="Power">{{ appointments.booked_by }}</td>
+                    <td data-label="Patient">{{ appointments.booked_by }}</td>
                     {% endif %}
 
-                    <td data-label="Power">{{ appointments.booked_at }}</td>
-                    <td data-label="Expiration">
+                    <td data-label="Booked Date">{{ appointments.booked_at }}</td>
+                    <td data-label="Appointment Date">
                         {% if appointments.appointment_date < send_present %} <p>Expired</p>
                             {% else %}
                             {{ appointments.appointment_date }}
                             {% endif %}
                     </td>
-                    <td data-label="Value">{{ appointments.appointment_time }}</td>
-                    <td data-label="Value">
+                    <td data-label="Appointment Time">{{ appointments.appointment_time }}</td>
+                    <td data-label="Status">
                         {% if appointments.status %}
                         <i class="fa fa-circle"
                             style="font-size:24px; color: green; box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;"
@@ -205,10 +205,10 @@
 
                         {% endif %}
                     </td>
-                    <td data-label="Value">{{ appointments.message }}</td>
+                    <td data-label="Message">{{ appointments.message }}</td>
                     {% if role_my != 'Doctor' %}
 
-                    <td data-label=""><a href="{% url 'mainapp:delete_appointments' appointments.id %}"
+                    <td data-label="Action"><a href="{% url 'mainapp:delete_appointments' appointments.id %}"
                             class="btn btn__active"
                             onclick="return confirm('Are you sure you want to delete?')">Cancel</a></td>
                     {% endif %}

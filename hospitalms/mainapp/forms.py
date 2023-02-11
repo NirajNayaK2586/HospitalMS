@@ -61,12 +61,12 @@ class ReviewCommentForm(forms.ModelForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name']
+        fields = ['username', 'first_name', 'last_name', 'email']
 
 class CustomUserUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['email', 'phone']
+        fields = ['first_name', 'last_name', 'username', 'email', 'phone']
 
 class CustomRUserUpdateForm(forms.ModelForm):
     class Meta:

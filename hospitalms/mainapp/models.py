@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from extras.models import HealthPackages
 
 ''' Model to store the roles of a user '''
 class Role(models.Model):
@@ -115,13 +116,16 @@ class Bills(models.Model):
         ("Cash On Delivery", "Cash On Delivery"),
         ("Khalti", "Khalti"),
     )
-    bill_title = models.CharField(max_length=50)
+    bill_title = models.CharField(max_length=50, blank=True)
     patient =models.ForeignKey(Patient, on_delete=models.CASCADE)
+    package =models.ForeignKey(HealthPackages, on_delete=models.CASCADE)
     issue_date = models.DateTimeField(auto_now=True)
-    bill = models.FileField(upload_to='bills_file')
+    bill = models.FileField(upload_to='bills_file', blank=True, null=True)
     paid = models.BooleanField(default=False, null=True, blank=True)
     payment_method = models.CharField(max_length=50, choices=METHOD, default = "Cash On Delivery")
-   
+    remarks = models.CharField(max_length=50, blank=True, null=True)
+    # bill_title=package+patient_issue_date 
+
     def __str__(self):
         return self.bill_title
 

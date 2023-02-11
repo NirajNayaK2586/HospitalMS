@@ -1,0 +1,188 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+
+{% block header %}
+
+<style>
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    #view_appointments {
+        min-height: 50vh;
+    }
+
+    .table {
+        width: 90%;
+        border-spacing: 0;
+        text-align: left;
+        margin: 0 auto;
+    }
+
+    .table th {
+        font-weight: 300;
+        font-size: 16px;
+        color: #fff;
+        line-height: 26px;
+        padding: 18px 30px;
+    }
+
+    .table thead tr {
+        background: #4d9ffe;
+    }
+
+    .table td {
+        padding: 15px 30px;
+        font-weight: 300;
+        font-size: 16px;
+        color: black-2;
+        line-height: 26px;
+        text-transform: uppercase;
+    }
+
+    .table tbody tr:nth-child(odd) {
+        background: white;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background: #f8fbfc;
+    }
+
+    .table__wrapper {
+        padding-top: 40px;
+    }
+
+    .btn {
+        display: inline-block;
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 25px;
+        text-transform: uppercase;
+        width: 120px;
+        text-align: center;
+        padding: 10px 5px;
+        border-radius: 3px;
+        transition: background 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        color: white;
+    }
+
+    .btn__active {
+        color: #ff0000;
+        border: 2px solid #fb0606;
+    }
+
+    .btn__active:hover {
+        background: #fb0606;
+    }
+
+    .btn__pledged {
+        color: #ff0004;
+        border: 2px solid #f14044;
+    }
+
+    .btn__pledged:hover {
+        background: #f14044;
+    }
+
+    @media (max-width: 768px) {
+        .table td {
+            display: block;
+            text-align: right;
+        }
+
+        .table td:before {
+            content: attr(data-label);
+            float: left;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .table thead display none tr {
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        thead {
+            display: none;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .container {
+            display: flex;
+            flex-direction: column;
+            margin: 24px 24px;
+            padding: 12px;
+        }
+    }
+
+    h2.center {
+        text-align: center;
+    }
+
+    .reprot-view a {
+        text-decoration: none;
+        color: #412855;
+    }
+</style>
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+{% endblock header %}
+
+
+{% block content %}
+<h2 class="center"> View Your Bills here</h2>
+
+
+<section id="view_appointments">
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Bill Order</th>
+                    <th>Package</th>
+                    <th>Issue Date</th>
+                    <th>Status</th>
+                    <th>Payment Method</th>
+                    <th>Bill</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bills in bills %}
+
+                <tr>
+
+                    <td data-label="Patient">{{ request.user }}</td>
+                    <td data-label="Bill Order">{{ bills.bill_title }}</td>
+
+                    <td data-label="Package">{{ bills.package.package_title }}</td>
+                    <td data-label="Issue Date">{{ bills.issue_date}}</td>
+                    {% if bills.paid %}
+                    <td data-label="Status">Paid</td>
+                    {% else %}
+                    <td data-label="Payment Method">Unpaid</td>
+                    {% endif %}
+                    <td data-label="Payment Method">{{ bills.payment_method }}</td>
+                    <td class="reprot-view" data-label="Bill"><a href="{{ bills.bill.url }}" target="_blank"><i
+                                class="fa fa-eye"></i>
+                            View Bill</a></td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+{% endblock content %}
+
+{% block script %}
+{% endblock script %}

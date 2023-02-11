@@ -83,7 +83,7 @@
     }
 
 
-    input.submit-btn {
+    input.submit {
         background-color: #4d9ffe;
         padding: 0.2rem 0.8rem;
         border: 1px solid #4d9ffe;
@@ -91,7 +91,20 @@
         font-family: "Urbanist";
         font-weight: 400;
         text-align: center;
+        transition: 0.45s all;
         color: #ffffff;
+    }
+
+    input.submit:hover {
+        background-color: #ffffff;
+        padding: 0.2rem 0.8rem;
+        border: 1px solid #4d9ffe;
+        cursor: pointer;
+        font-family: "Urbanist";
+        font-weight: 400;
+        text-align: center;
+        color: #4d9ffe;
+        transition: 0.45s all;
     }
 
     .form-container .form .submit-btn:hover {
@@ -190,11 +203,11 @@
     <form action="" method="post">
         {% csrf_token %}
         {{ p_user_form }}
-        <input type="submit" value="Update">
+        <input type="submit" value="Update" class="submit">
 
         <div class="sidebar">
             <h1>Hospital MS</h1>
-            <p>Staff Login</p>
+            <p>Patient Login</p>
             <h2>Respect your trust on us. &#9825;</h2>
         </div>
 </section>

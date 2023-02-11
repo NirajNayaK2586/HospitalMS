@@ -4,8 +4,9 @@ from ckeditor.fields import RichTextField
 
 class ChildCare(models.Model):
     childcaretitle = models.CharField(max_length=50)
-    description = models.TextField(max_length=500)
-    image = models.FileField(upload_to='childcare_image', blank=True)
+    description = RichTextField()
+    showcase_image = models.FileField(upload_to='childcare_image', blank=True)
+    schedule_image = models.FileField(upload_to='childcare_image_schedule', blank=True, null=True)
     added_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):

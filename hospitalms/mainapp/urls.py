@@ -50,5 +50,9 @@ urlpatterns = [
     #Users can delete their comments
     path('delete_comments/<int:id>', views.delete_comments, name='delete_comments'),
 
+
+    #Users can view their bills
+    path('view_bills/<int:id>', views.view_bills, name='view_bills'),
+
     
 ]

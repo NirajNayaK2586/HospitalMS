@@ -12,7 +12,7 @@
         {% endblock title%}
     </title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
 
     {% block header %}
 
@@ -26,6 +26,10 @@
             {% with request.resolver_match.url_name as url_name %}
 
             <a class="{% if url_name == 'profile' %}pactive{% endif %}" href="{% url 'mainapp:profile' %}">{{ user }}-Profile</a>
+            
+            {% if request.user.is_staff %}
+            <a style="margin-left: 6px;" href="http://localhost:8000/admin/"> | Dashboard</a>
+            {% endif %}
             {% endwith %}
             {% else %}
             <a href="{% url 'mainapp:user_login' %}">Login | </a>
@@ -38,7 +42,9 @@
     <section class="navigation">
         <div class="nav-container">
             <div class="brand">
-                <a href="{% url 'mainapp:index' %}">Logo</a>
+                <a href="{% url 'mainapp:index' %}">
+                    <img src="{% static 'img/apple-touch-icon.png' %}" alt="">
+                </a>
             </div>
             <nav>
                 <div class="nav-mobile"><a id="navbar-toggle" href="#!"><span></span></a></div>
@@ -48,14 +54,14 @@
                     <li class="{% if url_name == 'index' %}active{% endif %}">
                         <a href="{% url 'mainapp:index' %}">Home</a>
                     </li>
-                    <li>
-                        <a href="#!">About</a>
+                    <li class="{% if url_name == 'about' %}active {% endif %}">
+                        <a href="{% url 'extras:about' %}">About</a>
                     </li>
                     <li class="{% if url_name == 'health_packages' %}active {% endif %}">
                         <a href="{% url 'extras:health_packages' %}">Health Packages</a>
                     </li>
-                    <li>
-                        <a href="#!">Childcare</a>
+                    <li class="{% if url_name == 'childcare' %}active {% endif %}">
+                        <a href="{% url 'extras:childcare' %}">Childcare</a>
                     </li>
                     <!-- <li class="{% if url_name == 'doctors_specialization_view' or 'doctors_view_gc' or 'doctors_view_ayurveda' or 'doctors_view_cancer' or 'doctors_view_child' or 'doctors_view_dental' or 'doctors_view_diet' or 'doctors_view_dth' or 'doctors_view_ent' or 'doctors_view_kidney' or 'doctors_view_mh' or 'doctors_view_physio' or 'doctors_view_pregnancy' or 'doctors_view_details'  %}active {% endif %}"> -->
                         <li class="{% if url_name == 'doctors_specialization_view' %}active {% endif %}">
@@ -121,7 +127,7 @@
                                 <a href="{% url 'extras:health_packages' %}">View packages</a>
                             </li>
                             <li class="menu-item menu-item-type-post_type menu-item-object-page">
-                                <a href="#">Child Care</a>
+                                <a href="{% url 'extras:childcare' %}">Child Care</a>
                             </li>
                         </ul>
                     </div>
@@ -130,7 +136,7 @@
                     <div class="footer-call-to-action">
                         <h2 class="footer-call-to-action-title"> Let's Chat</h2>
                         <p class="footer-call-to-action-description"> Have a support question?</p>
-                        <a class="footer-call-to-action-button button" href="#" target="_self"> Get in Touch </a>
+                        <a class="footer-call-to-action-button button" href="{% url 'extras:about' %}" target="_self"> Get in Touch </a>
                     </div>
                     <div class="footer-call-to-action">
                         <h2 class="footer-call-to-action-title"> You Call Us</h2>

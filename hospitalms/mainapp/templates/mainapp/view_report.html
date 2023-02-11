@@ -163,7 +163,7 @@
 
                 <tr>
                     {% if role_my != 'Doctor' %}
-                    <td data-label="Contact ID" class="image-wala">
+                    <td data-label="Doctor" class="image-wala">
                         <p>
                             {{ reports.doctor }}
                         </p>
@@ -171,14 +171,14 @@
                     {% endif %}
 
                     {% if role_my == 'Doctor' %}
-                    <td data-label="Power">{{ reports.patient }}</td>
+                    <td data-label="Patient">{{ reports.patient }}</td>
                     {% endif %}
 
-                    <td data-label="Power">{{ reports.report_title }}</td>
+                    <td data-label="Report Title">{{ reports.report_title }}</td>
 
-                    <td data-label="Value">{{ reports.added_date }}</td>
-                    <td data-label="Value">{{ reports.doctor_review}}</td>
-                    <td class="reprot-view" data-label="Value"><a href="{{ reports.report.url }}" target="_blank"><i
+                    <td data-label="Added Date">{{ reports.added_date }}</td>
+                    <td data-label="Doctor Review">{{ reports.doctor_review}}</td>
+                    <td class="reprot-view" data-label="Report"><a href="{{ reports.report.url }}" target="_blank"><i
                                 class="fa fa-eye"></i>
                             View Report</a></td>
                     {% if role_my != 'Doctor' %}

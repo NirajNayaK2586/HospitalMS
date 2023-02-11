@@ -1,0 +1,162 @@
+{% extends 'mainapp/base.html' %}
+
+{% load static %}
+
+{% block header %}
+<style>
+    .container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: top;
+        -webkit-box-pack: justify;
+        flex-wrap: wrap;
+        -ms-flex-pack: justify;
+        justify-content: space-around;
+        padding: 24px 16px;
+        margin: 54px 124px;
+        min-height: 25vh;
+        background-color: #ffffff;
+        opacity: 0.8;
+        background-image: radial-gradient(#4d9ffe 0.5px, #f4f6f9 0.5px);
+        background-size: 10px 10px;
+    }
+
+    @media (max-width: 767px) {
+        .container {
+            margin: 24px 24px;
+        }
+    }
+
+    .top {
+        padding: 6px 24px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+    }
+
+    .top-content {
+        padding: 6px 24px;
+        width: 24rem;
+    }
+
+    .top-content h2 {
+        font-size: 225%;
+        color: #412855;
+
+    }
+
+    .top-content span {
+        font-style: italic;
+        color: #412855;
+    }
+
+    .top-content p {
+        text-align: justify;
+        color: #412855;
+
+    }
+
+    .top-image-section {
+        width: 24rem;
+    }
+
+    img {
+        width: 100%;
+        box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    }
+
+    .bottom {
+        margin-top: 24px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    @media (max-width: 767px) {
+        .bottom {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+
+    .cards {
+        box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+        padding: 12px 24px;
+        width: 33%;
+    }
+
+    .name {
+        color: #412855;
+    }
+
+    i {
+        color: #412855;
+        margin-top: 6px;
+        padding: 6px 12px;
+    }
+
+    .cards p {
+        padding: 6px 12px;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+{% endblock header %}
+
+{% block content %}
+
+<section id="about">
+    <div class="container">
+        <div class="top">
+            <div class="top-content">
+                <h2>About Us</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est quos incidunt neque error beatae illum.
+                    Voluptatibus ex itaque reprehenderit consequatur alias! Aliquam rem voluptatibus reprehenderit
+                    veniam numquam expedita, cupiditate earum?Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ea quo maxime reprehenderit, id dolore quibusdam? Fugit blanditiis mollitia obcaecati illum
+                    praesentium dolores voluptatum expedita minima.</p>
+                <span>Contact: +977 9898989898</span>
+            </div>
+            <div class="top-image-section">
+                <img src="{% static 'img/aboutt22.jpg' %}" alt="about">
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="cards first1">
+                <h4><i class="fa fa-phone" style="font-size:24px"></i> CONNECT US</h4>
+                <p><span class="name">Whatsapp: </span> 9898989898</p>
+                <p><span class="name">Viber:</span> 9898989898</p>
+                <p><span class="name">Reception:</span> 01-424542</p>
+            </div>
+            <div class="cards second2">
+                <h4><i class="fa fa-street-view" style="font-size:24px"></i> LOCATION</h4>
+                <p>New Baneshwor</p>
+                <p>Kathmandu, Province III (bagmati Province)</p>
+                <p>Nepal</p>
+            </div>
+            <div class="cards third3">
+                <h4><i class="fa fa-clock-o" style="font-size:24px"></i> HOURS</h4>
+                <p><span class="name">Mon - Fri </span> 11 AM - 8PM </p>
+                <p><span class="name">Sat - Sun </span> 6 AM - 8PM </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+</script>
+{% endblock script%}
