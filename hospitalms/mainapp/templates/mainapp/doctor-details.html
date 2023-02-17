@@ -308,7 +308,7 @@
                 <p>{{ doctor_data.short_description }}
                 </p>
             </div>
-            {% if string_user != 'AnonymousUser' %}
+            {% if string_user != 'AnonymousUser' and role == 'Patient (User)' %}
             <div class="right-bottom-div">
                 <h2>Appointment Form</h2>
                 <hr>
@@ -329,7 +329,7 @@
             </div>
             {% else %}
             <div class="right-bottom-div">
-                Please Login to book appointment with the doctor.
+                Please Login as a patient to book appointment with the doctor.
 
                 <a href="{% url 'mainapp:user_login' %}">Login</a>
             </div>

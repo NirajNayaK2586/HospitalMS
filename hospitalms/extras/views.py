@@ -48,7 +48,15 @@ def sp_health_packagess(request, id):
     template_name = 'extras/sp_health_package.html'
     hp_details = HealthPackages.objects.get(id=id)
     main_p = HealthPackageMain.objects.get(id=hp_details.MainPackage.id)
-    return render(request, template_name, {'hp_details': hp_details, 'main_p': main_p})
+    user = request.user
+    string_user = str(user)
+    if string_user == 'AnonymousUser':
+        role = ''
+    else:
+        role = str(user.role)
+    print('role')
+    print(role)
+    return render(request, template_name, {'role': role, 'hp_details': hp_details, 'main_p': main_p})
 
 def buy_package(request, id):
     if not request.user.is_authenticated:

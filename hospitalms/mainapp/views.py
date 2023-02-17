@@ -270,11 +270,15 @@ def doctors_view_details(request, id):
         errors = ''
         user = request.user
         string_user = str(user)
+        if string_user == 'AnonymousUser':
+            role = ''
+        else:
+            role = str(user.role)
     print('user')
-    print(user)
-    print(type(user))
+    print(role)
+    print(type(role))
    
-    return render(request, template_name, {'doctor_data': doctor_data, 'string_user': string_user, 'user': user, 'user_data': user_data, 'errors': errors, 'appointment_form': form})
+    return render(request, template_name, {'role': role, 'doctor_data': doctor_data, 'string_user': string_user, 'user': user, 'user_data': user_data, 'errors': errors, 'appointment_form': form})
 
 
 # Users can review and comment the doctors

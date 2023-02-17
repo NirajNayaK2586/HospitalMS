@@ -159,8 +159,13 @@
         </div>
 
         <hr>
-
+        {% if role == 'Patient (User)' %}
         <a class="buy-button" href="{% url 'extras:buy_package' hp_details.id  %}">Buy this Package </a>
+        {% else %}
+        <i>
+            Patients can buy this package.
+        </i>
+        {% endif %}
     </div>
 </section>
 
