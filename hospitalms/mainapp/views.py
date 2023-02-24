@@ -40,10 +40,7 @@ def signupview(request):
     if request.user.is_authenticated:
         return redirect('mainapp:index')
     form = CustomUserCreationForm(request.POST or None)
-    # r_form = CustomRCreationForm(request.POST or None)
-    # d_form = CustomDCreationForm(request.POST or None)
-    # p_form = CustomPCreationForm(request.POST or None)
-
+    
     if request.method == 'POST':
             if form.is_valid():
                 form.save()
@@ -59,13 +56,10 @@ def profileview(request):
     template_name = 'mainapp/profile.html'
     user = request.user
     role = user.role.id
-    print('type(role)')
-    print(type(role))
     return render(request, template_name, {'role': role, 'user': user})
 
 class MyPasswordChangeView(PasswordChangeView):
     template_name = 'mainapp/password-change.html'
-    # success_url = reverse_lazy('password-change-done-view')
     success_url = reverse_lazy('mainapp:index')
 
 class MyPasswordResetDoneView(PasswordResetDoneView):
@@ -92,7 +86,6 @@ def update_information(request):
 
         if custom_user_form.is_valid():
             custom_user_form.save()
-            # user_form.save()
             messages.success(request, 'Your profile is updated successfully')
 
             return redirect('/update_information')
@@ -141,8 +134,6 @@ def complete_information_staff(request):
         
         r_user = Receptionist.objects.get(User=myuser)
         r_user_form = CustomRUserUpdateForm(instance = r_user)
-        print('r_user_form')
-        print(r_user_form)
 
     return render(request, template_name, {'user_status': user_status, 'r_user_form': r_user_form})
 
@@ -164,12 +155,8 @@ def complete_information_doctor(request):
         d_user = Doctor.objects.get(User=myuser)
 
         d_user_form = CustomDUserUpdateForm(request.POST, request.FILES, instance = d_user)
-        print("d_user_form1:")
-        print(d_user_form)
 
         if d_user_form.is_valid():
-            print('d_user_form2')
-            print(d_user_form)
             d_user_form.save()
             return redirect('/')
 
@@ -180,8 +167,6 @@ def complete_information_doctor(request):
         
         d_user = Doctor.objects.get(User=myuser)
         d_user_form = CustomDUserUpdateForm(instance = d_user)
-        # print('d_user_form')
-        # print(d_user_form)
 
     return render(request, template_name, {'user_status': user_status, 'd_user_form': d_user_form})
 
@@ -216,8 +201,6 @@ def complete_information_patient(request):
 
         p_user = Patient.objects.get(User=myuser)
         p_user_form = CustomPUserUpdateForm(instance = p_user)
-        print('p_user_form')
-        print(p_user_form)
 
     return render(request, template_name, {'user_status': user_status, 'p_user_form': p_user_form})
 
@@ -226,8 +209,7 @@ def doctors_specialization_view(request):
     template_name = 'mainapp/view_doctors_specialization.html'
 
     doctor_users = CustomUser.objects.filter(role=3)
-    print('doctor_users')
-    print(doctor_users)
+
     return render(request, template_name)
 
 
@@ -259,7 +241,6 @@ def doctors_view_details(request, id):
 
                     return redirect('/doctors-view-details/'+str(id))
         else:
-            print(form.errors)
             messages.warning(request, 'The Appointment was failed.')
             form = AppointmentForm()
             errors = form.errors
@@ -288,7 +269,6 @@ def review_and_comment(request, id):
     doctor_data = Doctor.objects.get(id=id)
     patient = CustomUser.objects.get(id=request.user.id)
     reviews_comments = ReviewComment.objects.all()
-    print(reviews_comments)
     doctor_specific_comments = ReviewComment.objects.filter(doctor=id).order_by("-review_date")
 
     print('doctor_specific_comments')
@@ -305,7 +285,6 @@ def review_and_comment(request, id):
 
             return redirect('/review_and_comments/'+str(id))
         else:
-            print(form.errors)
             messages.warning(request, 'The Appointment was failed.')
             form = AppointmentForm()
     else:
@@ -323,14 +302,10 @@ def view_appointments(request, id):
     print(logged_in_user)
     if str(logged_in_user.role) != 'Doctor':
         appointments = Appointments.objects.filter(booked_by=id) 
-        print('Rolle != 3')
-        print(appointments)
         role_my = ''
     else:
         appointments = Appointments.objects.filter(doctor = id)
         role_my = 'Doctor'
-        print('appointment by doctor')
-        print(appointments)
     present = datetime.now()
     send_present = str(present)
     return render(request, template_name, {'appointments': appointments, 'send_present': send_present, 'role_my': role_my})
@@ -351,8 +326,6 @@ def view_reports(request, id):
         report = Report.objects.filter(doctor = logged_in_doctor.id) 
         
         role_my = 'Doctor'
-        print('appointment by doctor')
-        print(appointments)
     return render(request, template_name, {'reports': report, 'role_my': role_my})
 
 
@@ -397,8 +370,6 @@ def doctors_view_gc(request):
     template_name = "mainapp/specialization/gc_doctors.html"
 
     doctors = Doctor.objects.filter(specialization="General Clinics")
-    print('doctors_gc')
-    print(doctors)
 
     return render(request, template_name, {'doctors': doctors})
 
@@ -409,8 +380,6 @@ def doctors_view_ayurveda(request):
     template_name = "mainapp/specialization/ayurveda.html"
 
     doctors = Doctor.objects.filter(specialization="Ayurveda Specialists")
-    print('doctors_gc')
-    print(doctors)
 
     return render(request, template_name, {'doctors': doctors})
 
@@ -421,9 +390,7 @@ def doctors_view_cancer(request):
     template_name = "mainapp/specialization/cancer_doctors.html"
 
     doctors = Doctor.objects.filter(specialization="Cancer Specialists")
-    print('doctors_gc')
-    print(doctors)
-
+    
     return render(request, template_name, {'doctors': doctors})
 
 
@@ -433,9 +400,6 @@ def doctors_view_child(request):
     template_name = "mainapp/specialization/child.html"
 
     doctors = Doctor.objects.filter(specialization="Child Health")
-    print('doctors_gc')
-    print(doctors)
-
     return render(request, template_name, {'doctors': doctors})
 
 
@@ -445,8 +409,7 @@ def doctors_view_dental(request):
     template_name = "mainapp/specialization/dental.html"
 
     doctors = Doctor.objects.filter(specialization="Dental Cares")
-    print('doctors_gc')
-    print(doctors)
+    
 
     return render(request, template_name, {'doctors': doctors})
 
@@ -457,8 +420,7 @@ def doctors_view_diet(request):
     template_name = "mainapp/specialization/diet.html"
 
     doctors = Doctor.objects.filter(specialization="Diet and Nutrition")
-    print('doctors_gc')
-    print(doctors)
+    
 
     return render(request, template_name, {'doctors': doctors})
 
@@ -469,8 +431,7 @@ def doctors_view_dth(request):
     template_name = "mainapp/specialization/dth.html"
 
     doctors = Doctor.objects.filter(specialization="Diabetes, Thyroid and Hormonal")
-    print('doctors_gc')
-    print(doctors)
+    
 
     return render(request, template_name, {'doctors': doctors})
 
@@ -481,8 +442,7 @@ def doctors_view_ent(request):
     template_name = "mainapp/specialization/ent.html"
 
     doctors = Doctor.objects.filter(specialization="ENT specialists")
-    print('doctors_gc')
-    print(doctors)
+    
 
     return render(request, template_name, {'doctors': doctors})
 
@@ -493,8 +453,7 @@ def doctors_view_kidney(request):
     template_name = "mainapp/specialization/kidney.html"
 
     doctors = Doctor.objects.filter(specialization="Kidney Specialists")
-    print('doctors_gc')
-    print(doctors)
+    
 
     return render(request, template_name, {'doctors': doctors})
 
@@ -505,8 +464,7 @@ def doctors_view_mh(request):
     template_name = "mainapp/specialization/mh_doctors.html"
 
     doctors = Doctor.objects.filter(specialization="Mental Health")
-    print('doctors_gc')
-    print(doctors)
+    
 
     return render(request, template_name, {'doctors': doctors})
 
@@ -517,8 +475,7 @@ def doctors_view_physio(request):
     template_name = "mainapp/specialization/physio.html"
 
     doctors = Doctor.objects.filter(specialization="Physiotherapy Centers")
-    print('doctors_gc')
-    print(doctors)
+    
 
     return render(request, template_name, {'doctors': doctors})
 
@@ -529,7 +486,6 @@ def doctors_view_pregnancy(request):
     template_name = "mainapp/specialization/pregnancy.html"
 
     doctors = Doctor.objects.filter(specialization="Pregnancy and Infertility")
-    print('doctors_gc')
-    print(doctors)
+    
 
     return render(request, template_name, {'doctors': doctors})

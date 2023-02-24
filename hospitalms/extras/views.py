@@ -54,8 +54,6 @@ def sp_health_packagess(request, id):
         role = ''
     else:
         role = str(user.role)
-    print('role')
-    print(role)
     return render(request, template_name, {'role': role, 'hp_details': hp_details, 'main_p': main_p})
 
 def buy_package(request, id):
@@ -74,8 +72,6 @@ def buy_package(request, id):
 
         already_purchased = 0
         for bill in Bills.objects.filter(patient=patient_information.id):
-            print('bill')
-            print(bill.package)
             if bill.package == health_package:
                 already_purchased = 1
 
@@ -83,12 +79,6 @@ def buy_package(request, id):
             form = BillsForm(request.POST)
             package = request.POST['package']
             patient = request.POST['patient']
-
-            print("Before Valid testing")
-            print("package")
-            print(package)
-            print("patient")
-            print(patient)
 
             if form.is_valid():
                 print(form)
@@ -176,7 +166,6 @@ def buy_package(request, id):
                 else:
                     return redirect('/extras/khalti_verify_bill/' + str(order.id))
             else:
-                print(form.errors)
                 messages.warning(request, 'The Buying was failed.')
                 form = BillsForm()
                 errors = form.errors
@@ -196,7 +185,6 @@ def verify_bill(request, id):
 
 def khalti_verify_bill(request, id):
     template_name = 'extras/khalti_verify_bill.html'
-    # o_id = request.GET.get("o_id")
     order = Bills.objects.get(id=id)
     package_orderd = HealthPackages.objects.get(id=order.package.id)
     context = {
