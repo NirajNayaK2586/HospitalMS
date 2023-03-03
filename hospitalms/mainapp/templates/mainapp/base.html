@@ -32,8 +32,8 @@
             {% endif %}
             {% endwith %}
             {% else %}
-            <a href="{% url 'mainapp:user_login' %}">Login | </a>
-            <a href="{% url 'mainapp:signup' %}">| Register</a>
+            <a href="{% url 'mainapp:user_login' %}" class="login-btn">Login</a>
+            <a href="{% url 'mainapp:signup' %}" class="register-btn">Register</a>
             {% endif %}
         </div>
     </section>

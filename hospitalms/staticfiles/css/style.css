@@ -17,9 +17,14 @@ body {
     position: absolute;
     padding-left: 20px;
     float: left;
-    line-height: 55px;
+    line-height: 50px;
     text-transform: uppercase;
     font-size: 1.4em;
+}
+
+.brand a img{
+    width: 3rem;
+    margin: 5px;
 }
 
 .brand a,
@@ -54,7 +59,7 @@ nav ul li a:visited {
     padding: 0 20px;
     line-height: 55px;
     color: #fff;
-    background: #262626;
+    background: #87ceeb;
     text-decoration: none;
 }
 
@@ -105,7 +110,7 @@ nav ul li ul li a {
 .nav-mobile {
     display: none;
     position: absolute;
-    top: 0;
+    top: 42px;
     right: 0;
     background: transparent;
     height: 55px;
@@ -133,7 +138,7 @@ nav ul li ul li a {
     nav ul li a {
         padding: 15px;
         line-height: 20px;
-        background: #262626;
+        background: #87ceeb;
     }
 
     nav ul li ul li a {
@@ -212,6 +217,13 @@ div.top-bar {
 }
 
 
+
+/* Login and register button */
+
+
+a.login-btn{
+    border: 1px solid blue;
+}
 
 /* -----------------------------------------------------
                     Footer CSS
